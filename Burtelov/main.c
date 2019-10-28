@@ -30,7 +30,6 @@ typedef struct {
 
     union
     {
-
         struct {
             // Гарантия
             int guar;
@@ -57,8 +56,6 @@ typedef struct {
     int id;
     //флаг удаления
     int flag_del_sort;
-
-
 } car_sort;
 
 void car_hb(car_sort *s, car_sort *s_not, int len_struct)
