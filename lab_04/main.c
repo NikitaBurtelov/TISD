@@ -1,350 +1,255 @@
-#include "C:\Users\user\CLionProjects\C_Folder\lab_08\headers\h_array.h"
-#include "C:\Users\user\CLionProjects\C_Folder\lab_08\headers\h_includ.h"
-#include "C:\Users\user\CLionProjects\C_Folder\lab_08\headers\h_math.h"
+#include "headers/what.h"
+#include "headers/output.h"
 
-#define EPS 1e-10
+typedef char BUFER[BUF_LEN];
 
-int test_array_insert()
+//init bufer
+int init_bufer(BUFER buf, int len)
 {
-    array_type array;
-    short int test_save = 0;
-    int len = 2, pos;
-    double m2;
+    for (int i = 0; i < BUF_LEN - 1; i++)
+        buf[i] = '\0';
 
-    array = (array_type)malloc(len * sizeof(double));
+    for (int i = 0; i < len; i++)
+        if (scanf("%c", &buf[i]) != 1)
+            return EXIT_FAILURE;
 
-    //Test 1
-    pos = 1;
-    m2 = -94.558900;
-
-    *array = -199.2478;
-    *(array + 1) = 10.13;
-
-    if (array_insert(array, &len, m2, pos) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (*array == -94.558900 && *(array + 1) == -199.247800 &&
-            *(array + 2) == -94.558900 && *(array + 3) == 10.130000 && *(array + 4) == -94.558900)
-            test_save++;
-    }
-
-    //Test 2
-    pos = 1;
-    m2 = 1068.606500;
-
-    *array = 2451.213;
-    *(array + 1) = -314;
-
-    if (array_insert(array, &len, m2, pos) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (*array == 1068.606500 && *(array + 1) == 2451.213000 &&
-            *(array + 2) == 1068.606500 && *(array + 3) == -314.000000 && *(array + 4) == 1068.606500)
-            test_save++;
-    }
-
-    return test_save;
+    return EXIT_SUCCESS;
 }
 
-int test_m_average_one()
+//Инициализация массива
+int init_mass(Mass_double *p, Mass_int *s, int type_m)
 {
-    array_type array;
-    double m1, m1_test;
-    short int test_save = 0;
-    int len = 3;
-
-    array = (array_type)malloc(len * sizeof(double));
-
-    //Test 1
-    m1 = 0;
-    m1_test = 2.571429;
-
-    *array = 1;
-    *(array + 1) = 2;
-    *(array + 2) = 3;
-
-    if (m_average_one(array, &m1, len) == EXIT_FAILURE)
-        test_save++;
+    if (type_m == 0)
+    {
+        for (int i = 0; i < NMAX; i++)
+            p->elem[i] = 0;
+    }
     else
     {
-        if (m1 == m1_test)
-            test_save++;
+        for (int i = 0; i < NMAX; i++)
+            s->elem[i] = 0;
     }
 
-    //Test 2
-    m1 = 0;
-    m1_test = 1218.744350;
+    p->top = 0;
+    s->top = 0;
 
-    *array = 17768.2421;
-    *(array + 1) = -199.2478;
-    *(array + 2) = 10.13;
-
-    if (m_average_one(array, &m1, len) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (m1 == m1_test)
-            test_save++;
-    }
-
-
-    //Test 3
-    m1 = 0;
-    m1_test = -103719.138571;
-
-    *array = -656.13;
-    *(array + 1) = -355146.14;
-    *(array + 2) = -3425.25;
-
-    if (m_average_two(array, &m1, len) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (m1 == m1_test)
-            test_save++;
-    }
-
-
-    return test_save;
+    return EXIT_SUCCESS;
 }
 
-int test_m_average_two()
+//Инициализация списка
+int init_list(List_doubel *p, List_int *s, int type_l)
 {
-    array_type array;
-    double m2, m2_test;
-    short int test_save = 0;
-    int len = 3;
-
-    array = (array_type)malloc(len * sizeof(double));
-
-    //Test 1
-    m2 = 0;
-    m2_test = -94.558900;
-
-    *array = 17768.2421;
-    *(array + 1) = -199.2478;
-    *(array + 2) = 10.13;
-
-    if (m_average_two(array, &m2, len) == EXIT_FAILURE)
-        test_save++;
-    else
+    if (type_l == 0)
     {
-        if (m2 == m2_test)
-            test_save++;
+        for (int i = 0; i < NMAX; i++)
+        {
+            p->value = 0;
+            p->next = 0;
+        }
     }
-
-    //Test 2
-    m2 = 0;
-    m2_test = 104.500000;
-
-    *array = 17768;
-    *(array + 1) = 199;
-    *(array + 2) = 10;
-
-    if (m_average_two(array, &m2, len) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (m2 == m2_test)
-            test_save++;
-    }
-
-    //Test 3
-    m2 = 0;
-    m2_test = -2040.690000;
-
-    *array = -656.13;
-    *(array + 1) = -355146.14;
-    *(array + 2) = -3425.25;
-
-    if (m_average_two(array, &m2, len) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (m2 == m2_test)
-            test_save++;
-    }
-
-    return test_save;
+    return EXIT_SUCCESS;
 }
 
-
-// удаляет все элементы массива которые больше mu1
-int test_array_del()
+//Заполнение struct
+int init_struct_mass(BUFER *buf, Mass_double *frst_md, Mass_int *frst_mi, int type_m, int len)
 {
-    array_type array;
-    double m1;
-    short int test_save = 0;
-    int len = 5;
+    if (type_m == 0)
+    {
+        for (int i = 0; i < len; i++)
+        {
+            if (scanf("%lf", &frst_md->elem[i]) != 1 && NMAX < frst_md->top)
+                return EXIT_FAILURE;
+            else
+                frst_md->top++;
+        }
+    }
+    else
+    {
+        for (int i = 0; i < len; i++)
+        {
+            if (scanf("%d", &frst_mi->elem[i]) != 1 && NMAX < frst_mi->top)
+                return EXIT_FAILURE;
+            else
+                frst_mi->top++;
+        }
+    }
 
-    array = (array_type)malloc(len * sizeof(double));
-
-    //Test 1
-    m1 = 4.090909;
+    frst_md->top--;
+    frst_mi->top--;
 
     for (int i = 0; i < len; i++)
-        *(array + i) = i + 1; //1,2,3,4,5
+        printf("%d ", frst_mi->elem[i]);
 
-    if (array_del(&array, &len, m1) == EXIT_FAILURE)
-        test_save++;
+
+    return EXIT_SUCCESS;
+}
+
+int app_struct_mass(Mass_double *frst_md, Mass_int *frst_mi, int type_m)
+{
+    if (type_m == 0)
+    {
+        if (scanf("%lf", &frst_md->elem[frst_md->top + 1]) != 1 && NMAX < frst_md->top)
+            return EXIT_FAILURE;
+        frst_md->top++;
+    }
     else
     {
-        if (len == 4)
+        if (scanf("%d", &frst_mi->elem[frst_mi->top + 1]) != 1 && NMAX < frst_mi->top)
+            return EXIT_FAILURE;
+        frst_mi->top++;
+    }
+    return EXIT_SUCCESS;
+}
+
+int del_struct_mass(Mass_double *frst_md, Mass_int *frst_mi, int type_m)
+{
+    if (type_m == 0)
+    {
+        if (frst_md->top != 0)
+            frst_md->top--;
+    }
+    else
+    {
+        if (frst_mi->top != 0)
+            frst_mi->top--;
+    }
+
+    return EXIT_SUCCESS;
+}
+
+int Menu(BUFER *buf, List_doubel *frst_ld, List_int *frst_li, Mass_double *frst_md, Mass_int *frst_mi)
+{
+    short flag = 1, menu_type = 0, menu_method = 0, menu_sec = 0; //1 - true
+    int len = 0;
+
+    while (flag)
+    {
+        printf("\n1. Select type\n");
+        printf("0.EXIT\n");
+
+        //Проверка на ввод
+        if (scanf("%hi", &menu_type) != 1)
+            return EXIT_FAILURE;
+        //Определение типа
+        if (menu_type == 1)
+            printf("1. int\n2. double\n");// menu_type == 1 (int),  == 2 (double)
+        else if(menu_type == 0)
         {
-            if (*array == 1 && *(array + 1) == 2 && *(array + 2) == 3 && *(array + 3) == 4)
-                test_save++;
+            flag = 0;
+            return EXIT_SUCCESS;
+        }
+        //Проверка на ввод
+        if (scanf("%hi", &menu_type) != 1) //menu_type - на выходе тип данных
+            return EXIT_FAILURE;
+
+
+        printf("2. Choose an implementation method\n");
+        printf("0.EXIT\n");
+
+        if (scanf("%hi", &menu_method) != 1)
+            return EXIT_FAILURE;
+
+        if (menu_method == 0)
+        {
+            flag = 0;
+            return EXIT_SUCCESS;
+        }
+        else if (menu_method == 2)
+        {
+            printf("\n1. List\n2. Massiv\n");
+            if (scanf("%hi", &menu_method) != 1) // menu_method == 1 (List) == 2 (Massiv)
+                return EXIT_FAILURE;
+        }
+
+        printf("\nInput Len\n");
+
+        if (scanf("%d", &len) != 1)
+            return EXIT_FAILURE;
+
+        printf("Input number:\n");
+        // Init // menu_type == 1 (int),  == 2 (double) menu_method == 1 (List) == 2 (Massiv)
+        if (menu_type == 1) //int
+        {
+            if (menu_method == 1)
+                init_list(frst_ld, frst_li, 1);
+            else
+            {
+                init_mass(frst_md, frst_mi, 1);
+                init_struct_mass(buf, frst_md, frst_mi, 1, len);
+            }
+        }
+        else //double
+            if (menu_method == 1)
+                init_list(frst_ld, frst_li, 0);
+            else
+            {
+                init_mass(frst_md, frst_mi, 0);
+                init_struct_mass(buf, frst_md, frst_mi, 0, len);
+            }
+        flag = 0;
+    }
+
+    flag = 1;
+
+    while (flag) {
+        printf("\nSelect menu item\n");
+        printf("1. Print\n");
+        printf("2. Delete\n");
+        printf("3. Append\n");
+        printf("0. Exit\n");
+
+        if (scanf("%hi", &menu_sec) != 1)
+            return EXIT_FAILURE;
+
+        if (menu_sec == 0)
+        {
+            flag = 0;
+            return EXIT_SUCCESS;
+        }
+        else if (menu_sec == 1)
+        {
+            if (menu_method == 2 && menu_type == 2)
+                print_struct_mass(*frst_md, *frst_mi, 0);
+            else if (menu_method == 2 && menu_type == 1)
+                print_struct_mass(*frst_md, *frst_mi, 1);
+        }
+        else if (menu_sec == 2)
+        {
+            if (menu_method == 2 && menu_type == 2)
+                del_struct_mass(frst_md, frst_mi, 0);
+            else if (menu_method == 2 && menu_type == 1)
+                del_struct_mass(frst_md, frst_mi, 1);
+        }
+        else if (menu_sec == 3)
+        {
+            if (menu_method == 2 && menu_type == 2)
+            {
+                if (app_struct_mass(frst_md, frst_mi, 0) == EXIT_FAILURE)
+                    return EXIT_FAILURE;
+            }
+            else if (menu_method == 2 && menu_type == 1)
+            {
+                if (app_struct_mass(frst_md, frst_mi, 1) == EXIT_FAILURE)
+                    return EXIT_FAILURE;
+            }
+
         }
     }
 
-    //Test 2
-    m1 = 1.909091;
-
-    for (int i = 0; i < len; i++)
-        *(array + i) = 5 - i; //5,4,3,2,1
-
-    if (array_del(&array, &len, m1) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (len == 1)
-        {
-            if (*array == 1)
-                test_save++;
-        }
-    }
-
-    //Test 3
-    m1 = -4.090909;
-
-    for (int i = 0; i < len; i++)
-        *(array + i) = -(i + 1); //-1,-2,-3,-4,-5
-
-    if (array_del(&array, &len, m1) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (len == 4)
-        {
-            if (*array == -1 && *(array + 1) == -2 && *(array + 2) == -3 && *(array + 3) == -4)
-                test_save++;
-        }
-    }
-
-    //Test 4
-    m1 = 5.000000;
-
-    for (int i = 0; i < len; i++)
-        *(array + i) = -5; //5,5,5,5,5
-
-    if (array_del(&array, &len, m1) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (len == 5)
-        {
-            if (*array == -5 && *(array + 1) == -5 && *(array + 2) == -5
-                && *(array + 3) == -5 && *(array + 4) == -5
-                && *(array + 3) == -5)
-                test_save++;
-        }
-    }
-
-    //Test 5
-    m1 = 5.000000;
-
-    for (int i = 0; i < len; i++)
-        *(array + i) = 5; //5,5,5,5,5
-
-    if (array_del(&array, &len, m1) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (len == 5)
-        {
-            if (*array == 5 && *(array + 1) == 5 && *(array + 2) == 5
-                    && *(array + 3) == 5 && *(array + 4) == 5
-                    && *(array + 3) == 5)
-                test_save++;
-        }
-    }
-
-    len = 3;
-
-    array = (array_type)realloc(array, sizeof(double) * (unsigned)(len));
-
-    //Test 6
-    m1 = 2.571429;
-
-    for (int i = 0; i < len; i++)
-        *(array + i) = i + 1; //1, 2, 3
-
-    if (array_del(&array, &len, m1) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (len == 2)
-        {
-            if (*array == 1 && *(array + 1) == 2)
-                test_save++;
-        }
-    }
-    len = 3;
-
-    //Test 7
-    m1 = 1332.428571;
-
-    *array = 17768;
-    *(array + 1) = 199;
-    *(array + 2) = 10;
-
-    if (array_del(&array, &len, m1) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (len == 2)
-        {
-            if (*array == 199 && *(array + 1) == 10)
-                test_save++;
-        }
-    }
-
-    //Test 8
-    m1 = 1218.744350;
-
-    *array = 17768.2421;
-    *(array + 1) = -199.2478;
-    *(array + 2) = 10.13;
-
-    if (array_del(&array, &len, m1) == EXIT_FAILURE)
-        test_save++;
-    else
-    {
-        if (len == 2)
-        {
-            if (*array == -199.2478 && *(array + 1) == 10.13)
-                test_save++;
-        }
-    }
-
-    return test_save;
+    return EXIT_SUCCESS;
 }
 
 int main()
 {
-    int test_save = 0;
+    BUFER buf;
+    List_int frst_li;
+    List_doubel frst_ld;
+    Mass_int frst_mi;
+    Mass_double frst_md;
 
-    test_save += test_array_del();
 
-    test_save += test_array_insert();
-
-    test_save += test_m_average_one();
-
-    test_save += test_m_average_two();
-
-    if (test_save == 16)
-        return EXIT_SUCCESS;
-    else
+    if (Menu(&buf, &frst_ld, &frst_li, &frst_md, &frst_mi) == EXIT_FAILURE)
         return EXIT_FAILURE;
+
+    return EXIT_SUCCESS;
 }
