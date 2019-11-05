@@ -117,6 +117,64 @@ int del_struct_mass(Mass_double *frst_md, Mass_int *frst_mi, int type_m)
     return EXIT_SUCCESS;
 }
 
+int del_struct_list_int(List_int **head)
+{
+    if ((*head) == NULL)
+        return EXIT_FAILURE;
+
+    *head = (*head)->next;
+
+    return EXIT_SUCCESS;
+}
+
+int del_struct_list_double(List_doubel **head)
+{
+    if ((*head) == NULL)
+        return EXIT_FAILURE;
+
+    *head = (*head)->next;
+
+    return EXIT_SUCCESS;
+}
+
+int push_li(List_int **head)
+{
+    List_int *tmp = malloc(sizeof(List_int));
+
+    if (tmp == NULL)
+    {
+        return EXIT_FAILURE;
+    }
+    tmp->next = *head;
+    if (scanf("%d", &tmp->value) != 1)
+        return EXIT_FAILURE;
+    *head = tmp;
+
+    return EXIT_SUCCESS;
+}
+
+int push_ld(List_doubel **head)
+{
+    List_doubel *tmp = malloc(sizeof(List_doubel));
+
+    if (tmp == NULL)
+    {
+        return EXIT_FAILURE;
+    }
+    tmp->next = *head;
+    if (scanf("%lf", &tmp->value) != 1)
+        return EXIT_FAILURE;
+    *head = tmp;
+
+    return EXIT_SUCCESS;
+}
+
+void status_list_int(List_int **head)
+{
+    printf("\nTop Element Value: %d\n", (*head)->value);
+
+}
+
 int Menu(BUFER *buf, List_doubel *frst_ld, List_int *frst_li, Mass_double *frst_md, Mass_int *frst_mi)
 {
     short flag = 1, menu_type = 0, menu_method = 0, menu_sec = 0; //1 - true
@@ -171,7 +229,8 @@ int Menu(BUFER *buf, List_doubel *frst_ld, List_int *frst_li, Mass_double *frst_
         if (menu_type == 1) //int
         {
             if (menu_method == 1)
-                init_list(frst_ld, frst_li, 1);
+                for (int i = 0; i < len; i++)
+                    push_li(&frst_li);
             else
             {
                 init_mass(frst_md, frst_mi, 1);
@@ -180,7 +239,10 @@ int Menu(BUFER *buf, List_doubel *frst_ld, List_int *frst_li, Mass_double *frst_
         }
         else //double
             if (menu_method == 1)
-                init_list(frst_ld, frst_li, 0);
+            {
+                for (int i = 0; i < len; i++)
+                    push_ld(&frst_ld);
+            }
             else
             {
                 init_mass(frst_md, frst_mi, 0);
@@ -196,6 +258,7 @@ int Menu(BUFER *buf, List_doubel *frst_ld, List_int *frst_li, Mass_double *frst_
         printf("1. Print\n");
         printf("2. Delete\n");
         printf("3. Append\n");
+        printf("4. Status\n");
         printf("0. Exit\n");
 
         if (scanf("%hi", &menu_sec) != 1)
@@ -212,6 +275,8 @@ int Menu(BUFER *buf, List_doubel *frst_ld, List_int *frst_li, Mass_double *frst_
                 print_struct_mass(*frst_md, *frst_mi, 0);
             else if (menu_method == 2 && menu_type == 1)
                 print_struct_mass(*frst_md, *frst_mi, 1);
+            else if (menu_method == 1 && menu_type == 1)
+                print_struct_list_int(frst_li);
         }
         else if (menu_sec == 2)
         {
@@ -219,6 +284,10 @@ int Menu(BUFER *buf, List_doubel *frst_ld, List_int *frst_li, Mass_double *frst_
                 del_struct_mass(frst_md, frst_mi, 0);
             else if (menu_method == 2 && menu_type == 1)
                 del_struct_mass(frst_md, frst_mi, 1);
+            else if (menu_method == 1 && menu_type == 2)
+                del_struct_list_double(&frst_ld);
+            else if (menu_method == 1 && menu_type == 1)
+                del_struct_list_int(&frst_li);
         }
         else if (menu_sec == 3)
         {
@@ -232,6 +301,16 @@ int Menu(BUFER *buf, List_doubel *frst_ld, List_int *frst_li, Mass_double *frst_
                 if (app_struct_mass(frst_md, frst_mi, 1) == EXIT_FAILURE)
                     return EXIT_FAILURE;
             }
+            else if (menu_method == 1 && menu_type == 2)
+            {
+                if (push_ld(&frst_ld) == EXIT_FAILURE)
+                    return EXIT_FAILURE;
+            }
+            else if (menu_method == 1 && menu_type == 1)
+            {
+                if (push_li(&frst_li) == EXIT_FAILURE)
+                    return EXIT_FAILURE;
+            }
 
         }
     }
@@ -242,13 +321,13 @@ int Menu(BUFER *buf, List_doubel *frst_ld, List_int *frst_li, Mass_double *frst_
 int main()
 {
     BUFER buf;
-    List_int frst_li;
-    List_doubel frst_ld;
+    List_int *frst_li = NULL;
+    List_doubel *frst_ld = NULL;
     Mass_int frst_mi;
     Mass_double frst_md;
 
 
-    if (Menu(&buf, &frst_ld, &frst_li, &frst_md, &frst_mi) == EXIT_FAILURE)
+    if (Menu(&buf, frst_ld, frst_li, &frst_md, &frst_mi) == EXIT_FAILURE)
         return EXIT_FAILURE;
 
     return EXIT_SUCCESS;
