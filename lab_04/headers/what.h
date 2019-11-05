@@ -9,17 +9,17 @@
 #define BUF_LEN 100
 
 //Список int
-typedef struct
+typedef struct List_tag_int
 {
     int value;
-    struct List_int *next;
+    struct List_tag_int *next;
 } List_int;
 
 //Список double
-typedef struct
+typedef struct List_tag_double
 {
     double value;
-    struct List_double *next;
+    struct List_tag_double *next;
 } List_doubel;
 
 //Массив int
