@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/user/CLionProjects/TISD/lab_05/headers/delete.h
+
+C:/Users/user/CLionProjects/TISD/lab_05/headers/header.h
+time.h
+-
+stdlib.h
+-
+stdio.h
+-
+
+C:/Users/user/CLionProjects/TISD/lab_05/headers/insert.h
+
+C:/Users/user/CLionProjects/TISD/lab_05/headers/output.h
+
+C:/Users/user/CLionProjects/TISD/lab_05/headers/push.h
+header.h
+C:/Users/user/CLionProjects/TISD/lab_05/headers/header.h
+
+C:/Users/user/CLionProjects/TISD/lab_05/main.c
+headers/header.h
+C:/Users/user/CLionProjects/TISD/lab_05/headers/header.h
+headers/output.h
+C:/Users/user/CLionProjects/TISD/lab_05/headers/output.h
+headers/delete.h
+C:/Users/user/CLionProjects/TISD/lab_05/headers/delete.h
+headers/insert.h
+C:/Users/user/CLionProjects/TISD/lab_05/headers/insert.h
+headers/push.h
+C:/Users/user/CLionProjects/TISD/lab_05/headers/push.h
+
