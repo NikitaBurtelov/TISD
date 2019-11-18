@@ -2,6 +2,7 @@
 
 int init_list_queue(list_queue **head)
 {
+    list_queue *point_frnt;
     list_queue *tmp = malloc(sizeof(list_queue));
 
     if (tmp == NULL)
@@ -14,6 +15,10 @@ int init_list_queue(list_queue **head)
 
     (*head)->frnt = 1;
     (*head)->rear = 0;
+
+    point_frnt = *head;
+
+    (*head)->p_frnt = *head;
 
     return EXIT_SUCCESS;
 }

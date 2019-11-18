@@ -24,6 +24,7 @@ typedef struct List_queue_struct
     int value;
     int rear, frnt;
     struct List_queue_struct *next;
+    struct List_queue_struct *p_frnt;
 } list_queue;
 
 int init_arr_queue(arr_queue *head);
