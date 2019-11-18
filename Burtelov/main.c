@@ -1,66 +1,97 @@
+/**
+ * @mainpage Отчте к лабораторной работе №2
+ * @brief Работу выполнил: \n
+ * @brief Студент группы ИУ7-33Б \n
+ * @brief Буртелов Никита \n
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
 
+/*!@param STRUCT_LEN макстмальный размер массива структур*/
 #define STRUCT_LEN 70
+/*!@param MENU_LEN количество пунктов в меню*/
 #define MENU_LEN 6
+/*!@param POS_LEN количество позиций для дальнейшего парсинга*/
 #define POS_LEN 8
+/*!@param BUF_LEN максимальный размер буфера*/
 #define BUF_LEN 100
+/*!@param CHAR_LEN максимальный размер массива символа*/
 #define CHAR_LEN 30
+/*!@param AMOUNT_SORT кол-во сортировок*/
 #define AMOUNT_SORT 10000
 #define EXIT_FAILURE_DEL -1
 
+/*!
+    @param BUFER[BUF_LEN]  буфер
+*/
+
 typedef char BUFER[BUF_LEN];
+
+/*!
+    @param POS_PARS[POS_LEN] массив, содержащий позиции запятых для парсинга строки
+*/
+
 typedef short int POS_PARS[POS_LEN];
 
-typedef struct {
-    // Модель машины
+/*!@brief Структура, предназначенная для обработки данных об автомобилях*/
+typedef struct
+{
+    /*!@brief Модель машины*/
     char model[CHAR_LEN];
-    // Страна-производитель
+    /*!@brief Страна-производитель*/
     char country[CHAR_LEN];
-    // Цвета
+    /*!@brief Цвет*/
     char color[CHAR_LEN];
-    // Цена
+    /*!@brief Цена*/
     int cost;
-    // Состояние 1 - б/у, 0 - нет
+    /*!@brief Состояние 1 - б/у, 0 - нет*/
     int state;
-    // флаг на удаление
+    /*!@brief Флаг на удаление*/
     int flag_del;
 
     union
     {
-
-        struct {
-            // Гарантия
+        struct
+        {
+            /*!@brief Гарантия*/
             int guar;
-        } car_new;
+        } /*!@brief Структура, для новых автомобилей*/
+        car_new;
 
-        struct {
-            // Год выпуска
+        struct
+        {
+            /*!@brief Год выпуска*/
             int year;
-            // Пробег
+            /*!@brief Пробег*/
             int mileage;
-            // Кол-во ремонтов
+            /*!@brief Кол-во ремонтов*/
             int repairs;
-            // Кол-во владельцев
+            /*!@brief Кол-во владельцев*/
             int owner;
-        } car_used;
-    }condition;
+        }/*!@brief Структура, для б.у. автомобилей*/
+        car_used;
+    }/*!@brief Union, включающий в себя дополнительный сведения об автомобилях*/
+    condition;
 }car;
 
-//структура для сортировки по цене
+/*!@brief Структура ключей*/
 typedef struct {
-    // Name
+    /*!@brief Name*/
     int name;
-    //id
+    /*!@brief id*/
     int id;
-    //флаг удаления
+    /*!@brief Флаг удаления*/
     int flag_del_sort;
-
-
 } car_sort;
 
+/*!@brief Инициализация не отсортированной струкртуры ключей, */
+/*!
+ * @param *s - указатель на массив структур-ключей
+ * @param *s_not - указатель на не отстортированный массив структур-ключей
+*/
 void car_hb(car_sort *s, car_sort *s_not, int len_struct)
 {
     for (int i = 0; i < len_struct; i++)
@@ -69,7 +100,11 @@ void car_hb(car_sort *s, car_sort *s_not, int len_struct)
         s_not[i].id = s[i].id;
     }
 }
-
+/*!@brief Инициализация исходной не отсортированной структуры */
+/*!
+ * @param *p - указатель на массив структур-ключей
+ * @param *p_not - указатель на не отстортированный массив структур
+*/
 void car_dont_hb(car *p, car *p_not, int len_struct)
 {
     for (int j = 0; j < len_struct; j++)
@@ -88,6 +123,7 @@ void car_dont_hb(car *p, car *p_not, int len_struct)
     }
 }
 
+/*!@brief Возращение структуры ключей к не отсортированному виду*/
 void car_sort_init_frst(car_sort *s, car_sort *s_not, int len_struct)
 {
     for (int i = 0; i < len_struct; i++)
@@ -97,6 +133,7 @@ void car_sort_init_frst(car_sort *s, car_sort *s_not, int len_struct)
     }
 }
 
+/*!@brief Идентификайия структуры для дальнейшего заполнения*/
 void ident_struct(car  *p)
 {
     for (int j = 0; j < CHAR_LEN; j++)
@@ -115,18 +152,21 @@ void ident_struct(car  *p)
     p->flag_del = 0;
 }
 
-void ident_pos(POS_PARS pos_pars)
-{
-    for (int i = 0; i < POS_LEN; i++)
-        pos_pars[i] = 0;
-}
-
+/*!@brief Идентификация буфера*/
 void ident_buf(BUFER buf)
 {
     for (int i = 0; i < BUF_LEN; i++)
         buf[i] = '\0';
 }
 
+/*!@brief Нахождение позиции запятой, для дальнейшего парсинга строки*/
+ void ident_pos(POS_PARS pos_pars)
+{
+    for (int i = 0; i < POS_LEN; i++)
+        pos_pars[i] = 0;
+}
+
+/*!@brief Вывод меню при выборе удаления полей структуры*/
 void del_struct_record_menu()
 {
     printf("Choose which field we will delete: \n"); //Выбор поля удаления
@@ -142,6 +182,7 @@ void del_struct_record_menu()
     printf("10. Owner\nInput number: ");
 }
 
+/*!@brief Печать ключей*/
 void printf_result_sort(car *p,car_sort *p_s, int len_struct)
 {
     printf("  Id        Cost");
@@ -156,6 +197,7 @@ void printf_result_sort(car *p,car_sort *p_s, int len_struct)
     printf("\n___________________\n");
 }
 
+/*!@brief Сортировка структуры ключей методом пузырька*/
 void sort_struct_bubble(car_sort *s, int len_struct)
 {
     int tmp, tmp_id;
@@ -177,6 +219,7 @@ void sort_struct_bubble(car_sort *s, int len_struct)
     }
 }
 
+/*!@brief Сортировка структуры ключей методом Шелла*/
 void sort_struct_quick(car_sort *s, int len_struct)
 {
     int i, j, step;
@@ -206,6 +249,7 @@ void sort_struct_quick(car_sort *s, int len_struct)
     }
 }
 
+/*!@brief Функция поиска совпадений в полях структуры при удалении*/
 int del_struct_search(car *p, BUFER buf, int record)
 {
     short flag_y = 0, flag_n = 1;
@@ -287,6 +331,7 @@ int del_struct_search(car *p, BUFER buf, int record)
         return EXIT_FAILURE_DEL;
 }
 
+/*!@brief Удаление полей записи в массиве структур*/
 int del_struct_record(car *p, int *len_struct)
 {
     long number_menu;
@@ -345,6 +390,7 @@ int del_struct_record(car *p, int *len_struct)
     return EXIT_SUCCESS;
 }
 
+/*!@brief Добавление новых элементов в массив структур*/
 int append_struct(car *p, car_sort *s, int *len_struct)
 {
     char buf_state = 0;
@@ -382,11 +428,14 @@ int append_struct(car *p, car_sort *s, int *len_struct)
 
     if (buf_state == 'y')
     {
+        p[index].state = 0;
         printf("Input guar: ");
         scanf("%d", &p[index].condition.car_new.guar);
     }
     else if (buf_state == 'n')
     {
+        p[index].state = 1;
+
         printf("Input year: ");
         scanf("%d", &p[index].condition.car_used.year);
 
@@ -430,6 +479,7 @@ void print_len(car *p, short *len_model, short *len_country, short *len_color, s
     }
 }
 
+/*!@brief Сортировка массива структур методом пузырька*/
 void sort_dont_key_bubble(car *p, int len_struct)
 {
     int tmp_cost,  tmp_state, tmp_del; //общие параметры
@@ -491,6 +541,7 @@ void sort_dont_key_bubble(car *p, int len_struct)
     }
 }
 
+/*!@brief Сортировка массива структур методом Шелла*/
 void sort_dont_key_quick(car *p, int len_struct)
 {
     int i, j, step;
@@ -551,6 +602,7 @@ void sort_dont_key_quick(car *p, int len_struct)
     }
 }
 
+/*!@brief Печать таблицы, содержащий поля массива структур*/
 void print_struct_sort(car *p, car_sort *s, int len_struct)
 {
 // max длина слова полей структур
@@ -661,6 +713,8 @@ void print_struct_sort(car *p, car_sort *s, int len_struct)
            "__________|_______|_____|_______|___"
            "_______|_________|______|\n");
 }
+
+/*!@brief Печать времени сортировок массива структур и массива ключей */
 void print_result(clock_t shell1, clock_t shell2, clock_t bubble1, clock_t bubble2
                   ,clock_t shell3, clock_t shell4, clock_t bubble3, clock_t bubble4)
 {
@@ -678,6 +732,7 @@ void print_result(clock_t shell1, clock_t shell2, clock_t bubble1, clock_t bubbl
     printf("Structure size: 118 Kbyte\n70 element structure size: 8260 Kbyte\n");
 }
 
+/*!@brief Печать таблицы данных*/
 void print_struct(car *p, int len_struct) {
     // max длина слова полей структур
     short int len_model = 0, len_country = 0, len_color = 0, len_cost = 0;
@@ -790,6 +845,7 @@ void print_struct(car *p, int len_struct) {
 
 }
 
+/*!@brief Парсинг строк из файла*/
 int parser(car *p, car_sort *s, BUFER buf){
     // Позиция запятой
     POS_PARS pos_pars;
@@ -869,6 +925,7 @@ int parser(car *p, car_sort *s, BUFER buf){
     return EXIT_SUCCESS;
 }
 
+/*!@brief Меню*/
 int menu(car *p, car *p_not, car_sort *s, car_sort *o, int *len_struct){
     int item, price_min, price_max;
     long long count = 0;
