@@ -1,0 +1,198 @@
+\hypertarget{structcar}{}\doxysection{Структура car}
+\label{structcar}\index{car@{car}}
+
+
+Структура, предназначенная для обработки данных об автомобилях  
+
+
+\doxysubsection*{Открытые атрибуты}
+\begin{DoxyCompactItemize}
+\item 
+char \mbox{\hyperlink{structcar_a6f7452d4a1fc61574671609ec27f1b99}{model}} \mbox{[}\mbox{\hyperlink{main_8c_a19613185939b326392f115786a888665}{C\+H\+A\+R\+\_\+\+L\+EN}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em Модель машины \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{structcar_acb8309f6503d7d1d94398ac4be0ff336}{country}} \mbox{[}\mbox{\hyperlink{main_8c_a19613185939b326392f115786a888665}{C\+H\+A\+R\+\_\+\+L\+EN}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em Страна-\/производитель \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{structcar_abcc0e8fe2e21f87aabb86303038f2109}{color}} \mbox{[}\mbox{\hyperlink{main_8c_a19613185939b326392f115786a888665}{C\+H\+A\+R\+\_\+\+L\+EN}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em Цвет \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structcar_ab982234d708fe894483430f6ce7a3d40}{cost}}
+\begin{DoxyCompactList}\small\item\em Цена \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structcar_a7a58ec40cb70616dc9830f5e15b4197b}{state}}
+\begin{DoxyCompactList}\small\item\em Состояние 1 -\/ б/у, 0 -\/ нет \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structcar_a62b70b70ac5ffa80df16a1c8d4499178}{flag\+\_\+del}}
+\begin{DoxyCompactList}\small\item\em Флаг на удаление \end{DoxyCompactList}\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>struct \{\\
+\>\>int \mbox{\hyperlink{structcar_af61bf38dd24fa9b0e0ef9525f5f39b3b}{guar}}\\
+\>\>\>{\em Гарантия }\\
+\>\} \mbox{\hyperlink{structcar_a1f2b83174953ddc7175b7efa2d55dd36}{car\_new}}\\
+\>\>\>{\em Структура, для новых автомобилей }\\
+\>struct \{\\
+\>\>int \mbox{\hyperlink{structcar_a404dc1289b9e39c535788b57498e16d8}{year}}\\
+\>\>\>{\em Год выпуска }\\
+\>\>int \mbox{\hyperlink{structcar_a9de12c837bcaf8756f566d92f3b81e0e}{mileage}}\\
+\>\>\>{\em Пробег }\\
+\>\>int \mbox{\hyperlink{structcar_a4231b8f43be9d4813957d27d815d1dcb}{repairs}}\\
+\>\>\>{\em Кол-\/во ремонтов }\\
+\>\>int \mbox{\hyperlink{structcar_abb8b01817677be8321229823f24ad7c9}{owner}}\\
+\>\>\>{\em Кол-\/во владельцев }\\
+\>\} \mbox{\hyperlink{structcar_a9eca630735542b67c7c372982a9bd0ca}{car\_used}}\\
+\>\>\>{\em Структура, для б.у. автомобилей }\\
+\} \mbox{\hyperlink{structcar_acb09d791885ccd147ac96295393146b3}{condition}}\\
+
+\end{tabbing}\begin{DoxyCompactList}\small\item\em Union, включающий в себя дополнительный сведения об автомобилях \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Подробное описание}
+Структура, предназначенная для обработки данных об автомобилях 
+
+\doxysubsection{Данные класса}
+\mbox{\Hypertarget{structcar_a1f2b83174953ddc7175b7efa2d55dd36}\label{structcar_a1f2b83174953ddc7175b7efa2d55dd36}} 
+\index{car@{car}!car\_new@{car\_new}}
+\index{car\_new@{car\_new}!car@{car}}
+\doxysubsubsection{\texorpdfstring{car\_new}{car\_new}}
+{\footnotesize\ttfamily struct \{ ... \} 
+         car\+::car\+\_\+new}
+
+
+
+Структура, для новых автомобилей 
+
+\mbox{\Hypertarget{structcar_a9eca630735542b67c7c372982a9bd0ca}\label{structcar_a9eca630735542b67c7c372982a9bd0ca}} 
+\index{car@{car}!car\_used@{car\_used}}
+\index{car\_used@{car\_used}!car@{car}}
+\doxysubsubsection{\texorpdfstring{car\_used}{car\_used}}
+{\footnotesize\ttfamily struct \{ ... \} 
+         car\+::car\+\_\+used}
+
+
+
+Структура, для б.\+у. автомобилей 
+
+\mbox{\Hypertarget{structcar_abcc0e8fe2e21f87aabb86303038f2109}\label{structcar_abcc0e8fe2e21f87aabb86303038f2109}} 
+\index{car@{car}!color@{color}}
+\index{color@{color}!car@{car}}
+\doxysubsubsection{\texorpdfstring{color}{color}}
+{\footnotesize\ttfamily char car\+::color\mbox{[}\mbox{\hyperlink{main_8c_a19613185939b326392f115786a888665}{C\+H\+A\+R\+\_\+\+L\+EN}}\mbox{]}}
+
+
+
+Цвет 
+
+\mbox{\Hypertarget{structcar_acb09d791885ccd147ac96295393146b3}\label{structcar_acb09d791885ccd147ac96295393146b3}} 
+\index{car@{car}!condition@{condition}}
+\index{condition@{condition}!car@{car}}
+\doxysubsubsection{\texorpdfstring{condition}{condition}}
+{\footnotesize\ttfamily union \{ ... \} 
+     car\+::condition}
+
+
+
+Union, включающий в себя дополнительный сведения об автомобилях 
+
+\mbox{\Hypertarget{structcar_ab982234d708fe894483430f6ce7a3d40}\label{structcar_ab982234d708fe894483430f6ce7a3d40}} 
+\index{car@{car}!cost@{cost}}
+\index{cost@{cost}!car@{car}}
+\doxysubsubsection{\texorpdfstring{cost}{cost}}
+{\footnotesize\ttfamily int car\+::cost}
+
+
+
+Цена 
+
+\mbox{\Hypertarget{structcar_acb8309f6503d7d1d94398ac4be0ff336}\label{structcar_acb8309f6503d7d1d94398ac4be0ff336}} 
+\index{car@{car}!country@{country}}
+\index{country@{country}!car@{car}}
+\doxysubsubsection{\texorpdfstring{country}{country}}
+{\footnotesize\ttfamily char car\+::country\mbox{[}\mbox{\hyperlink{main_8c_a19613185939b326392f115786a888665}{C\+H\+A\+R\+\_\+\+L\+EN}}\mbox{]}}
+
+
+
+Страна-\/производитель 
+
+\mbox{\Hypertarget{structcar_a62b70b70ac5ffa80df16a1c8d4499178}\label{structcar_a62b70b70ac5ffa80df16a1c8d4499178}} 
+\index{car@{car}!flag\_del@{flag\_del}}
+\index{flag\_del@{flag\_del}!car@{car}}
+\doxysubsubsection{\texorpdfstring{flag\_del}{flag\_del}}
+{\footnotesize\ttfamily int car\+::flag\+\_\+del}
+
+
+
+Флаг на удаление 
+
+\mbox{\Hypertarget{structcar_af61bf38dd24fa9b0e0ef9525f5f39b3b}\label{structcar_af61bf38dd24fa9b0e0ef9525f5f39b3b}} 
+\index{car@{car}!guar@{guar}}
+\index{guar@{guar}!car@{car}}
+\doxysubsubsection{\texorpdfstring{guar}{guar}}
+{\footnotesize\ttfamily int car\+::guar}
+
+
+
+Гарантия 
+
+\mbox{\Hypertarget{structcar_a9de12c837bcaf8756f566d92f3b81e0e}\label{structcar_a9de12c837bcaf8756f566d92f3b81e0e}} 
+\index{car@{car}!mileage@{mileage}}
+\index{mileage@{mileage}!car@{car}}
+\doxysubsubsection{\texorpdfstring{mileage}{mileage}}
+{\footnotesize\ttfamily int car\+::mileage}
+
+
+
+Пробег 
+
+\mbox{\Hypertarget{structcar_a6f7452d4a1fc61574671609ec27f1b99}\label{structcar_a6f7452d4a1fc61574671609ec27f1b99}} 
+\index{car@{car}!model@{model}}
+\index{model@{model}!car@{car}}
+\doxysubsubsection{\texorpdfstring{model}{model}}
+{\footnotesize\ttfamily char car\+::model\mbox{[}\mbox{\hyperlink{main_8c_a19613185939b326392f115786a888665}{C\+H\+A\+R\+\_\+\+L\+EN}}\mbox{]}}
+
+
+
+Модель машины 
+
+\mbox{\Hypertarget{structcar_abb8b01817677be8321229823f24ad7c9}\label{structcar_abb8b01817677be8321229823f24ad7c9}} 
+\index{car@{car}!owner@{owner}}
+\index{owner@{owner}!car@{car}}
+\doxysubsubsection{\texorpdfstring{owner}{owner}}
+{\footnotesize\ttfamily int car\+::owner}
+
+
+
+Кол-\/во владельцев 
+
+\mbox{\Hypertarget{structcar_a4231b8f43be9d4813957d27d815d1dcb}\label{structcar_a4231b8f43be9d4813957d27d815d1dcb}} 
+\index{car@{car}!repairs@{repairs}}
+\index{repairs@{repairs}!car@{car}}
+\doxysubsubsection{\texorpdfstring{repairs}{repairs}}
+{\footnotesize\ttfamily int car\+::repairs}
+
+
+
+Кол-\/во ремонтов 
+
+\mbox{\Hypertarget{structcar_a7a58ec40cb70616dc9830f5e15b4197b}\label{structcar_a7a58ec40cb70616dc9830f5e15b4197b}} 
+\index{car@{car}!state@{state}}
+\index{state@{state}!car@{car}}
+\doxysubsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily int car\+::state}
+
+
+
+Состояние 1 -\/ б/у, 0 -\/ нет 
+
+\mbox{\Hypertarget{structcar_a404dc1289b9e39c535788b57498e16d8}\label{structcar_a404dc1289b9e39c535788b57498e16d8}} 
+\index{car@{car}!year@{year}}
+\index{year@{year}!car@{car}}
+\doxysubsubsection{\texorpdfstring{year}{year}}
+{\footnotesize\ttfamily int car\+::year}
+
+
+
+Год выпуска 
+
+
+
+Объявления и описания членов структуры находятся в файле\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{main_8c}{main.\+c}}\end{DoxyCompactItemize}
