@@ -7,7 +7,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define NMAX 100
+#define NMAX 10
 #define BUF_LEN 100
 
 //Список int

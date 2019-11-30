@@ -26,19 +26,11 @@ time.h
 unistd.h
 -
 
-C:/Users/user/CLionProjects/TISD/lab_04/maze.c
-headers/maze.h
-C:/Users/user/CLionProjects/TISD/lab_04/headers/maze.h
+C:/Users/user/CLionProjects/TISD/lab_04/main.c
 headers/what.h
 C:/Users/user/CLionProjects/TISD/lab_04/headers/what.h
 headers/output.h
 C:/Users/user/CLionProjects/TISD/lab_04/headers/output.h
-
-C:/Users/user/CLionProjects/TISD/lab_04/output.c
-headers/output.h
-C:/Users/user/CLionProjects/TISD/lab_04/headers/output.h
 headers/maze.h
 C:/Users/user/CLionProjects/TISD/lab_04/headers/maze.h
-locale.h
--
 

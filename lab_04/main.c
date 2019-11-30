@@ -2,6 +2,8 @@
 #include "headers/output.h"
 #include "headers/maze.h"
 
+//Отредактировать переполнение + (свободные поля ??)
+
 typedef char BUFER[BUF_LEN];
 
 //Инициализация массива
@@ -52,7 +54,9 @@ int chek_struct_mass_str(Mass_str *s, List_str *p, int len, int type_d)
 {
     // l -left, r - right, br - скобка, fbr - фигурная скобка, sbr - квадратная скобка
     int l_br = 0, r_br = 0, l_fbr = 0, r_fbr = 0, l_sbr = 0, r_sbr = 0;
+    short flag = 0;
     char param = '\0';
+    BUFER buf;
 
     if (chek_mass_number(s, p, len, type_d) == 1)
     {
@@ -67,25 +71,46 @@ int chek_struct_mass_str(Mass_str *s, List_str *p, int len, int type_d)
             }
 
             if (param == '(')
-                l_br++;
+                if (type_d == 0)
+                    l_br++;
+                else
+                    l_br--;
+            else if (param == ')')
+                if (type_d == 0)
+                    r_br--;
+                else
+                    r_br++;
+            else if (param == '{')
+                if (type_d == 0)
+                    l_fbr++;
+                else
+                    l_fbr--;
 
-            if (param == ')')
-                r_br++;
-
-            if (param == '{')
-                l_fbr++;
-
-            if (param == '}')
-                r_fbr++;
-
-            if (param == '[')
-                l_sbr++;
-
-            if (param == ']')
-                r_sbr++;
+            else if (param == '}')
+                if (type_d == 0)
+                    r_fbr--;
+                else
+                    r_fbr++;
+            else if (param == '[')
+                if (type_d == 0)
+                    l_sbr++;
+                else
+                    l_sbr--;
+            else if (param == ']')
+            {
+                if (type_d == 0)
+                    r_sbr--;
+                else
+                    r_sbr++;
+            }
+            if ((r_sbr + l_sbr) < 0 || (r_br + l_br) < 0 || (r_fbr + l_fbr) < 0)
+            {
+                flag = 1;
+                break;
+            }
         }
 
-        if (l_br == r_br && l_fbr == r_fbr && l_sbr == r_sbr)
+        if ((l_br + r_br) == 0 && (l_fbr + r_fbr) == 0 && (l_sbr + r_sbr) == 0 && flag == 0)
             printf("\nBrackets are partially true\n");
         else
             printf("\nBrackets are not partially\n");
@@ -275,7 +300,6 @@ int del_struct_list_str(List_str **head)
     free(point);
 
     return EXIT_SUCCESS;
-    return EXIT_SUCCESS;
 }
 
 int push_li(List_int **head)
@@ -335,18 +359,21 @@ int push_ls(List_str **head, int flag)
 
 void status_list_int(List_int *head, int len)
 {
+    len--;
     printf("\nTop Element Value: %d\n", head->value);
     printf("Stack length: %d\n", len);
 }
 
 void status_list_str(List_str *head, int len)
 {
+    len--;
     printf("\nTop Element Value: %c\n", head->value);
     printf("Stack length: %d\n", len);
 }
 
 void status_list_double(List_doubel *head, int len)
 {
+    len--;
     printf("\nTop Element Value: %lf\n", head->value);
     printf("Stack length: %d\n", len);
 }
@@ -372,7 +399,7 @@ void status_mass_double(Mass_double *frst_md, int len)
 int Menu(List_doubel *frst_ld, List_int *frst_li, List_str *frst_ls, Mass_double *frst_md, Mass_int *frst_mi, Mass_str *frst_ms)
 {
     short flag = 1, menu_type = 0, menu_method = 0, menu_sec = 0; //1 - true
-    int len = 0;
+    int len = 0, c;;
 
     while (flag)
     {
@@ -467,6 +494,9 @@ int Menu(List_doubel *frst_ld, List_int *frst_li, List_str *frst_ls, Mass_double
 
     flag = 1;
 
+    //if (menu_type == 3 && menu_method == 1)
+      //  len--;
+
     while (flag) {
         printf("\nSelect menu item\n");
         printf("1. Print\n");
@@ -502,44 +532,51 @@ int Menu(List_doubel *frst_ld, List_int *frst_li, List_str *frst_ls, Mass_double
         }
         else if (menu_sec == 2)
         {
-            if (menu_method == 2 && menu_type == 2)
-                del_struct_mass(frst_md, frst_mi, 0);
-            else if (menu_method == 2 && menu_type == 1)
-                del_struct_mass(frst_md, frst_mi, 1);
-            else if (menu_method == 2 && menu_type == 3)
-                del_struct_mass_str(frst_ms);
-            else if (menu_method == 1 && menu_type == 2)
+            if (menu_type == 3 && menu_method == 1)
+                c = 1;
+            else
+                c = 0;
+
+            if (len != c)
             {
-                del_struct_list_double(&frst_ld);
+                if (menu_method == 2 && menu_type == 2)
+                    del_struct_mass(frst_md, frst_mi, 0);
+                else if (menu_method == 2 && menu_type == 1)
+                    del_struct_mass(frst_md, frst_mi, 1);
+                else if (menu_method == 2 && menu_type == 3)
+                    del_struct_mass_str(frst_ms);
+                else if (menu_method == 1 && menu_type == 2) {
+                    del_struct_list_double(&frst_ld);
+                } else if (menu_method == 1 && menu_type == 1) {
+                    del_struct_list_int(&frst_li);
+                } else if (menu_method == 1 && menu_type == 3) {
+                    del_struct_list_str(&frst_ls);
+                }
+                len--;
             }
-            else if (menu_method == 1 && menu_type == 1)
-            {
-                del_struct_list_int(&frst_li);
-            }
-            else if (menu_method == 1 && menu_type == 3)
-            {
-                del_struct_list_str(&frst_ls);
-            }
-            len--;
+            else
+                printf("Stack is empty");
         }
         else if (menu_sec == 3)
         {
-            if (menu_method == 2 && menu_type == 2)
+            if (len <= NMAX)
             {
-                if (app_struct_mass(frst_md, frst_mi, 0) == EXIT_FAILURE)
-                    return EXIT_FAILURE;
+                if (menu_method == 2 && menu_type == 2) {
+                    if (app_struct_mass(frst_md, frst_mi, 0) == EXIT_FAILURE)
+                        return EXIT_FAILURE;
+                } else if (menu_method == 2 && menu_type == 1) {
+                    if (app_struct_mass(frst_md, frst_mi, 1) == EXIT_FAILURE)
+                        return EXIT_FAILURE;
+                } else if (menu_method == 2 && menu_type == 3) {
+                    if (app_struct_mass_str(frst_ms) == EXIT_FAILURE)
+                        return EXIT_FAILURE;
+                }
             }
-            else if (menu_method == 2 && menu_type == 1)
+            else
             {
-                if (app_struct_mass(frst_md, frst_mi, 1) == EXIT_FAILURE)
-                    return EXIT_FAILURE;
+                printf("The stack is full");
             }
-            else if (menu_method == 2 && menu_type == 3)
-            {
-                if (app_struct_mass_str(frst_ms) == EXIT_FAILURE)
-                    return EXIT_FAILURE;
-            }
-            else if (menu_method == 1 && menu_type == 2)
+            if (menu_method == 1 && menu_type == 2)
             {
                 if (push_ld(&frst_ld) == EXIT_FAILURE)
                     return EXIT_FAILURE;

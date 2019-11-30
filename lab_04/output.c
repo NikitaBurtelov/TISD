@@ -34,15 +34,21 @@ void print_struct_list_int(const List_int *head)
 void print_struct_list_str(const List_str *head)
 {
     int count = 0;
-    while(head)
+    if (head->next == NULL)
     {
-        printf("\n%p: %c\n",head->next, head->value);
+        printf("Empty");
+    }
+    else {
+        while (head)
+        {
+            printf("\n%p: %c\n", head->next, head->value);
 
-        head = head->next;
+            head = head->next;
 
-        if (head->value == '\n')
-            break;
-        count++;
+            if (head->value == '\n')
+                break;
+            count++;
+        }
     }
 }
 
