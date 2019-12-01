@@ -23,7 +23,7 @@ int main(void)
                "2.Push                          7.Push\n"
                "3.Pop                           8.Pop\n"
                "4.Peek                          9.Peek\n"
-               "                                10.Task                     0.Exit\n");
+               "5.Task                          10.Task                     0.Exit\n");
         printf("        Input:");
 
         int rc = scanf("%d", &ch);
@@ -67,6 +67,103 @@ int main(void)
                 printf("Peeked value = %d\n", item.x);
             }
             break;
+        case 5:
+        {
+            int strLen = 0;
+            printf("Input length of the string: ");
+            if(scanf("%d", &strLen) != 1)
+            {
+                clear();
+                printf("Wrong Input!\n");
+                break;
+            }
+            if(strLen <= 0)
+            {
+                printf("Wrong Input!\n");
+                break;
+            }
+
+            char *expression = NULL;
+            char data;
+            expression = malloc(sizeof (char) * ((unsigned)strLen + 1));
+            strLen++;
+            if(!expression)
+            {
+                printf("Memory allocation error!\n");
+                break;
+            }
+
+            printf("Input string with brackets('()' or '[]' or '{}') and without spacebars; maximum length = %d: ", strLen - 1);
+            if(scanf("%s", expression) != 1)
+            {
+                printf("Wrong Input!\n");
+                break;
+            }
+            expression[strLen] = 0;
+
+            arrStack_t bracketsStack1; // для (
+            arrStack_t bracketsStack2; // для [
+            arrStack_t bracketsStack3; // для {
+            int sum1 = 0, sum2 = 0, sum3 = 0, flag = 0;
+            initArr(&bracketsStack1, sizeof (char) * (unsigned)strLen);
+            initArr(&bracketsStack2, sizeof (char) * (unsigned)strLen);
+            initArr(&bracketsStack3, sizeof (char) * (unsigned)strLen);
+
+            for(int i = 0; expression[i] && (i < strLen); i++)
+            {
+                if(expression[i] == '(')
+                {
+                    //arrPush(&bracketsStack1, &expression[i]);
+                    sum1++;
+                }
+                else if(expression[i] == '[')
+                {
+                    //arrPush(&bracketsStack2, &expression[i]);
+                    sum2++;
+                }
+                else if(expression[i] == '{')
+                {
+                    //arrPush(&bracketsStack3, &expression[i]);
+                    sum3++;
+                }
+
+                else if(expression[i] == ')')
+                {
+                    //arrPop(&bracketsStack1, &data);
+                    sum1--;
+                }
+                else if(expression[i] == ']')
+                {
+                    //arrPop(&bracketsStack2, &data);
+                    sum2--;
+                }
+                else if(expression[i] == '}')
+                {
+                    //arrPop(&bracketsStack3, &data);
+                    sum3--;
+                }
+
+                if(sum1 < 0 || sum2 < 0 || sum3 < 0)
+                {
+                    printf("Ne Verno!\n");
+                    flag++;
+                    break;
+                }
+            }
+            if(flag)
+                break;
+
+            if(sum1 == 0 && sum2 == 0 && sum3 == 0)
+                printf("Verno!\n");
+            else
+                printf("Ne Verno!\n");
+
+            freeArr(&bracketsStack1);
+            freeArr(&bracketsStack2);
+            freeArr(&bracketsStack3);
+
+            break;
+        }
         case 6:
             listStatus(&list);
             break;

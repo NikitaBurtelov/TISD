@@ -14,6 +14,7 @@ void print_main_menu()
            "\t5.Sort tables\n"
            "\t6.Shuffle tables\n"
            "\t7.Save base to choosened file\n"
+           "\t8.Search record\n"
            "\t0.Exit\n");
 }
 
@@ -304,6 +305,9 @@ int main()
             case 7:
                 save_changes(car_list, car_list_len, flag);
                 break;
+            case 8:
+                search_rec(car_list, car_list_len, &flag);
+                break;
             case 0:
                 if(car_list_len != 0 && flag.chages_flag == 1)
                     save_changes(car_list, car_list_len, flag);
@@ -314,7 +318,10 @@ int main()
             printf("\n");
         }
         else
+        {
+            clear();
             printf("Wrong input!\n");
+        }
     }
 
     return EXIT_SUCCESS;

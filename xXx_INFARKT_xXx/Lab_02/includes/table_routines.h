@@ -27,4 +27,6 @@ void print_table_by_keys(car *car_list, int car_list_len, key *key_list, int key
 
 void clear(void);
 
+int search_rec(car *car_list, int car_list_len, flags *flag);
+
 #endif // STD_CDIO_H

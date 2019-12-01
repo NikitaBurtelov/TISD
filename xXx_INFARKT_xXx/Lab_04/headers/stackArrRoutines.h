@@ -24,7 +24,7 @@ Function's names:
 #include <malloc.h>
 #include <stdio.h>
 
-#define STACK_ARR_LEN 6
+#define STACK_ARR_LEN 16
 #define OUT_OF_MEMORY -100
 #define STACK_OVERFLOW -101
 #define STACK_UNDERFLOW -102

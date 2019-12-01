@@ -455,3 +455,53 @@ void clear (void)
   if(!feof(stdin))
     while ( getchar() != '\n' );
 }
+
+// находит все машины по полю "марка" в отрезке цен [min; max] у которых 0 ремонтов и 1 владелец
+int search_rec(car *car_list, int car_list_len, flags *flag)
+{
+    if(flag->base_flag == 0 || car_list_len == 0)
+    {
+        printf("Empty base, you have nothing to search!\n");
+        return EXIT_FAILURE;
+    }
+
+    str model;
+    int min = 0, max = 0, pr = 0;
+    printf("Input model: ");
+    fgets(model, STRLEN, stdin);
+    if(strlen(model) == 1)
+    {
+        printf("Wrong input!\n");
+        return EXIT_FAILURE;
+    }
+    int a = (int)-strlen(model) - 1;
+    model[a] = 0;
+    printf("Input min and max price: ");
+    if(scanf("%d %d", &min, &max) != 2 || min > max || min <= 0 || max <= 0)
+    {
+        printf("Wrong input!\n");
+        return EXIT_FAILURE;
+    }
+
+    for(int i = 0; i < car_list_len; i++)
+        if(strcmp(car_list[i].model, model) == 0)
+            if(car_list[i].cond_flag == 1 && car_list[i].price <= max && car_list[i].price >= min)
+                if(car_list[i].condition.used_s.users == 1 && car_list[i].condition.used_s.repairs == 0)
+                {
+                    pr++;
+                    if(pr == 1)
+                    {
+                        printf("┌───┬────────────────────┬──────────┬─────┬──────────┬─────────┬──────────┬─────────┬──────────────┬───────┬───────┐\n");
+                        printf("│%3s│%20s│%10s│%5s│%10s│%9s│ %7s│ %5s│ %3s│ %3s│%s│\n","ID", "Model","Country", "Price", "Colour", "Condition", "Guarantee", "     Run", "Year of build", "Owners", "Repairs");
+                        printf("├───┼────────────────────┼──────────┼─────┼──────────┼─────────┼──────────┼─────────┼──────────────┼───────┼───────┤\n");
+                    }
+                    print_elem(car_list[i]);
+                }
+
+    if(!pr)
+        printf("There are no records satysfying the filter!\n");
+    else
+        printf("└───┴────────────────────┴──────────┴─────┴──────────┴─────────┴──────────┴─────────┴──────────────┴───────┴───────┘\n");
+
+    return EXIT_SUCCESS;
+}
