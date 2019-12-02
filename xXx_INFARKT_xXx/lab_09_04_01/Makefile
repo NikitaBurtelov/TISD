@@ -1,32 +1,22 @@
-CAT3 = headers/
-EXECUTE = app.exe 
-TEST_EXECUTE = test.exe
-OBJECTS = main.o matrix_routines.o math.o
-TEST_OBJECTS = test.o matrix_routines.o math.o
-SOURSES = *.c
-HEADERS = $(CAT3)types.h $(CAT3)matrix_routines.h $(CAT3)includes.h
-DEBUG_KEYS = -g3 -pedantic -std=c99 -Wall -Werror 
-RELEASE_KEYS = -pedantic -std=c99 -Wall -Werror 
-DEBUG_COMP_KEYS = -g3 -pedantic -lm 
-RELEASE_COMP_KEYS = -O3 -pedantic -lm 
+CC = gcc
+CFLAGS = -std=c99 -Wall -Werror -MD -g3 -pedantic -c
+TEST_OBJECTS = $(subst main.o,,$(patsubst %.c,%.o,$(wildcard *.c)))
+MAIN_OBJECTS = $(subst test.o,,$(patsubst %.c,%.o,$(wildcard *.c)))
 
-app.exe: $(OBJECTS) $(HEADERS)
-	gcc $(DEBUG_COMP_KEYS) $(OBJECTS) -o $(EXECUTE)
+.PHONY: clean all
 
-test.exe: $(TEST_OBJECTS) $(HEADERS)
-	gcc $(RELEASE_COMP_KEYS) $(TEST_OBJECTS) -o $(TEST_EXECUTE)
+all: main.exe test.exe
 
-math.o: math.c $(HEADERS)
-	gcc $(DEBUG_KEYS) -c $<
+main.exe: $(MAIN_OBJECTS)
+	$(CC) -o main.exe $(MAIN_OBJECTS)
 
-test.o: test.c $(HEADERS)
-	gcc $(DEBUG_KEYS) -c $<
+test.exe: $(TEST_OBJECTS)
+	$(CC) -o test.exe $(MAIN_OBJECTS)
 
-main.o: main.c $(HEADERS)
-	gcc $(DEBUG_KEYS) -c $<
+%.o: %.c
+	$(CC) $(CFLAGS) $<
 
-matrix_routines.o: matrix_routines.c $(HEADERS)
-	gcc $(DEBUG_KEYS) -c $<
-
-clean:
-	rm -R *.o *.exe
+clean: 
+	rm *.exe *.o *.d
+	
+include $(wildcard *.d) 

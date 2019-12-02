@@ -199,7 +199,7 @@ int main(void)
             break;
         case 10:
         {
-            system("konsole -e ./Debug/mazeMain.exe");
+            system("konsole -e ./mazeMain.exe");
             break;
         }
         default:
