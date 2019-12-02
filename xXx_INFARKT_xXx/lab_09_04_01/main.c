@@ -3,45 +3,46 @@
 #include "headers/matrix_routines.h"
 #include "headers/math.h"
 
+
 int main()
 {
-    matrix_t A, B, C;
+    matrix_t a, b, c;
     int ro, gm;
 
-    if(matrixInput(&A))
+    if (matrix_input(&a))
         return EXIT_FAILURE;
 
-    if(matrixInput(&B))
+    if (matrix_input(&b))
     {
-        destMatrix(&A);
+        dest_matrix(&a);
         return EXIT_FAILURE;
     }
 
-    if(scanf("%d", &ro) != 1 || ro < 0)
+    if (scanf("%d", &ro) != 1 || ro < 0)
     {
-        destMatrix(&A);
-        destMatrix(&B);
+        dest_matrix(&a);
+        dest_matrix(&b);
         return EXIT_FAILURE;
     }
 
-    if(scanf("%d", &gm) != 1 || gm < 0)
+    if (scanf("%d", &gm) != 1 || gm < 0)
     {
-        destMatrix(&A);
-        destMatrix(&B);
+        dest_matrix(&a);
+        dest_matrix(&b);
         return EXIT_FAILURE;
     }
 
-    create1stMatrix(&A);
-    create1stMatrix(&B);
+    create_1st_matrix(&a);
+    create_1st_matrix(&b);
 
-    create2ndMatrix(&A, &B);
+    create_2nd_matrix(&a, &b);
 
-    create3rdMatrix(&A, &B, &C, ro, gm);
+    create_3rd_matrix(&a, &b, &c, ro, gm);
 
-    matrixOutput(C);
+    matrix_output(c);
 
-    destMatrix(&C);
-    destMatrix(&A);
-    destMatrix(&B);
-    return 0;
+    dest_matrix(&c);
+    dest_matrix(&a);
+    dest_matrix(&b);
+    return EXIT_SUCCESS;
 }

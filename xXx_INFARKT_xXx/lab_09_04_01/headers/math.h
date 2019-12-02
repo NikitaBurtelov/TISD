@@ -1,19 +1,18 @@
-#ifndef __MATH_H__
-#define __MATH_H__
+#ifndef MATH_H
+#define MATH_H
 
 #include "matrix_routines.h"
 #include "includes.h"
 #include "types.h"
 
 
+int create_1st_matrix(matrix_t *matrix);
 
-int create1stMatrix(matrix_t *matrix);
+int create_2nd_matrix(matrix_t *a, matrix_t *b);
 
-int create2ndMatrix(matrix_t *A, matrix_t *B);
+matrix_t multipl_matrix(matrix_t *left, matrix_t *right);
 
-matrix_t multiplMatrix(matrix_t *left, matrix_t *right);
+int create_3rd_matrix(matrix_t *a, matrix_t *b, matrix_t *c, int ro, int gm);
 
-int create3rdMatrix(matrix_t *A, matrix_t *B, matrix_t *C, int ro, int gm);
-
-#endif // __MATH_H__
+#endif
 

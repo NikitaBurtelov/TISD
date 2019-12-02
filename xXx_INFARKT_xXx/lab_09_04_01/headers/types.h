@@ -3,10 +3,9 @@
 
 typedef struct
 {
-    long **dataP;
+    long **data_pt;
     int columns;
     int strings;
-
 } matrix_t;
 
-#endif // TYPES_H
+#endif

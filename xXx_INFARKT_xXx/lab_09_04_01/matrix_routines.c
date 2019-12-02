@@ -1,20 +1,17 @@
 #include "headers/matrix_routines.h"
 
-/* >includes
-"types.h"
-"includes.h"
- */
 
-int initMatrix(matrix_t *matrix, int strings, int columns) // >signature
+int init_matrix(matrix_t *matrix, int strings, int columns)
 {
-    matrix->dataP = malloc(sizeof (long *) * (unsigned)strings);
-    if(!matrix->dataP)
+    matrix->data_pt = malloc(sizeof (long *) * strings);
+    if (!matrix->data_pt)
         return EXIT_FAILURE;
 
-    for(int i = 0; i < strings; i++)
+    for (int i = 0; i < strings; i++)
     {
-        matrix->dataP[i] = (long *)malloc(sizeof (long) * (unsigned)columns);
-        if(!matrix->dataP)
+        size_t lgsz = sizeof (long int);
+        matrix->data_pt[i] = (long *)malloc(lgsz * columns);
+        if (!matrix->data_pt)
             return EXIT_FAILURE;
     }
 
@@ -24,138 +21,141 @@ int initMatrix(matrix_t *matrix, int strings, int columns) // >signature
     return EXIT_SUCCESS;
 }
 
-int destMatrix(matrix_t *matrix) // >signature
+int dest_matrix(matrix_t *matrix)
 {
-    for(int i = 0; i < matrix->strings; i++)
+    for (int i = 0; i < matrix->strings; i++)
     {
-        free(matrix->dataP[i]);
-        matrix->dataP[i] = NULL;
+        free(matrix->data_pt[i]);
+        matrix->data_pt[i] = NULL;
     }
-    free(matrix->dataP);
-    matrix->dataP = NULL;
+    free(matrix->data_pt);
+    matrix->data_pt = NULL;
     return EXIT_SUCCESS;
 }
 
-int matrixOutput(matrix_t matrix) // >signature
+int matrix_output(matrix_t matrix)
 {
-    for(int i = 0; i < matrix.strings; i++)
+    for (int i = 0; i < matrix.strings; i++)
     {
-        for(int j = 0; j < matrix.columns; j++)
-            printf("%3ld ", matrix.dataP[i][j]);
+        for (int j = 0; j < matrix.columns; j++)
+            printf("%3ld ", matrix.data_pt[i][j]);
         printf("\n");
     }
     return EXIT_SUCCESS;
 }
 
-int matrixInput(matrix_t *matrix) // >signature
+int matrix_input(matrix_t *matrix)
 {
-    if(scanf("%d", &matrix->strings) != 1 || matrix->strings <= 0)
+    if (scanf("%d", &matrix->strings) != 1 || matrix->strings <= 0)
         return EXIT_FAILURE;
-    if(scanf("%d", &matrix->columns) != 1 || matrix->columns <= 0)
+    if (scanf("%d", &matrix->columns) != 1 || matrix->columns <= 0)
         return EXIT_FAILURE;
-    initMatrix(matrix, matrix->strings, matrix->columns);
-    for(int i = 0; i < matrix->strings; i++)
-        for(int j = 0; j < matrix->columns; j++)
-            if(scanf("%ld", &(matrix->dataP[i][j])) != 1)
+    init_matrix(matrix, matrix->strings, matrix->columns);
+    for (int i = 0; i < matrix->strings; i++)
+        for (int j = 0; j < matrix->columns; j++)
+            if (scanf("%ld", &(matrix->data_pt[i][j])) != 1)
             {
-                destMatrix(matrix);
+                dest_matrix(matrix);
                 return EXIT_FAILURE;
             }
     return EXIT_SUCCESS;
 }
 
-int deleteColumn(matrix_t *matrix) // >signature
+int delete_column(matrix_t *matrix)
 {
-    long max = matrix->dataP[0][0];
+    long max = matrix->data_pt[0][0];
     int column = 0;
-    for(int i = 0; i < matrix->columns; i++)
-        for(int j = 0; j < matrix->strings; j++)
-            if(max <= matrix->dataP[j][i])
+    for (int i = 0; i < matrix->columns; i++)
+        for (int j = 0; j < matrix->strings; j++)
+            if (max <= matrix->data_pt[j][i])
             {
-                max = matrix->dataP[j][i];
+                max = matrix->data_pt[j][i];
                 column = i;
             }
 
-    for(int i = 0; i < matrix->strings; i++)
+    for (int i = 0; i < matrix->strings; i++)
     {
-        for(int j = column; j < matrix->columns - 1; j++)
-            matrix->dataP[i][j] = matrix->dataP[i][j+1];
-        long *pt = realloc(matrix->dataP[i], sizeof(long) * (unsigned)(matrix->columns - 1));
-        if(!pt)
+        for (int j = column; j < matrix->columns - 1; j++)
+            matrix->data_pt[i][j] = matrix->data_pt[i][j + 1];
+        size_t lgsz = sizeof (long int);
+        long *pt = realloc(matrix->data_pt[i], lgsz * (matrix->columns - 1));
+        if (!pt)
             return EXIT_FAILURE;
-        matrix->dataP[i] = pt;
+        matrix->data_pt[i] = pt;
     }
     matrix->columns--;
 
     return EXIT_SUCCESS;
 }
 
-int deleteString(matrix_t *matrix) // >signature
+int delete_string(matrix_t *matrix)
 {
-    long max = matrix->dataP[0][0];
+    long max = matrix->data_pt[0][0];
     int string = 0;
-    for(int i = 0; i < matrix->columns; i++)
-        for(int j = 0; j < matrix->strings; j++)
-            if(max <= matrix->dataP[j][i])
+    for (int i = 0; i < matrix->columns; i++)
+        for (int j = 0; j < matrix->strings; j++)
+            if (max <= matrix->data_pt[j][i])
             {
-                max = matrix->dataP[j][i];
+                max = matrix->data_pt[j][i];
                 string = j;
             }
-    free(matrix->dataP[string]);
-    matrix->dataP[string] = NULL;
+    free(matrix->data_pt[string]);
+    matrix->data_pt[string] = NULL;
     matrix->strings--;
-    for(int i = string; i < matrix->strings; i++)
-        matrix->dataP[i] = matrix->dataP[i+1];
+    for (int i = string; i < matrix->strings; i++)
+        matrix->data_pt[i] = matrix->data_pt[i + 1];
 
-    long **pt = realloc(matrix->dataP, sizeof (long*) * (unsigned)(matrix->strings));
-    if(!pt)
+    long **pt = realloc(matrix->data_pt, sizeof (long *) * (matrix->strings));
+    if (!pt)
         return EXIT_FAILURE;
     else
-        matrix->dataP = pt;
+        matrix->data_pt = pt;
 
     return EXIT_SUCCESS;
 }
 
-int addColumn(matrix_t *matrix) // >signature
+int add_column(matrix_t *matrix)
 {
-    for(int i = 0; i < matrix->strings; i++)
+    for (int i = 0; i < matrix->strings; i++)
     {
-        long *pt = realloc(matrix->dataP[i], sizeof (long) * (unsigned)(matrix->columns + 1));
-        if(!pt)
+        size_t lgsz = sizeof (long int);
+        long *pt = realloc(matrix->data_pt[i], lgsz * (matrix->columns + 1));
+        if (!pt)
             return EXIT_FAILURE;
         else
-            matrix->dataP[i] = pt;
-        long min = matrix->dataP[i][0];
-        for(int j = 0; j < matrix->columns; j++)
-            min = (min < matrix->dataP[i][j]) ? min : matrix->dataP[i][j];
-        matrix->dataP[i][matrix->columns] = min;
+            matrix->data_pt[i] = pt;
+        long min = matrix->data_pt[i][0];
+        for (int j = 0; j < matrix->columns; j++)
+            min = (min < matrix->data_pt[i][j]) ? min : matrix->data_pt[i][j];
+        matrix->data_pt[i][matrix->columns] = min;
     }
     matrix->columns++;
     return EXIT_SUCCESS;
 }
 
-int addString(matrix_t *matrix) // >signature
+int add_string(matrix_t *matrix)
 {
-    long **pt = realloc(matrix->dataP, sizeof (long *) *(unsigned)(matrix->strings + 1));
-    if(!pt)
+    long **pt = realloc(matrix->data_pt, sizeof (long *) * (matrix->strings + 1));
+    if (!pt)
         return EXIT_FAILURE;
     else
-        matrix->dataP = pt;
+        matrix->data_pt = pt;
 
-    long *pt1 = malloc(sizeof (long) *(unsigned)(matrix->columns));
-    if(!pt)
+    size_t lgsz = sizeof (long int);
+    long *pt1 = malloc(lgsz * (matrix->columns));
+    if (!pt)
         return EXIT_FAILURE;
     else
-        matrix->dataP[matrix->strings] = pt1;
+        matrix->data_pt[matrix->strings] = pt1;
 
-    for(int i = 0; i < matrix->columns; i++)
+    for (int i = 0; i < matrix->columns; i++)
     {
         int sum = 0, quant = 0;
-        for(int j = 0; j < matrix->strings; j++, quant++)
-            sum += matrix->dataP[j][i];
-        if(sum < 0 && (sum % 2) == -1)
+        for (int j = 0; j < matrix->strings; j++, quant++)
+            sum += matrix->data_pt[j][i];
+        if (sum < 0 && (sum % 2))
             sum--;
-        matrix->dataP[matrix->strings][i] = sum/quant;
+        matrix->data_pt[matrix->strings][i] = sum / quant;
     }
     matrix->strings++;
     return EXIT_SUCCESS;

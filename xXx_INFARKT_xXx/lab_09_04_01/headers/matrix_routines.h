@@ -1,25 +1,25 @@
-#ifndef __MATRIX_ROUTINES_H__
-#define __MATRIX_ROUTINES_H__
+#ifndef MATRIX_ROUTINES_H
+#define MATRIX_ROUTINES_H
 
 #include "includes.h"
 #include "types.h"
 
 
+int init_matrix(matrix_t *matrix, int strings, int columns);
 
-int initMatrix(matrix_t *matrix, int strings, int columns);
+int dest_matrix(matrix_t *matrix);
 
-int destMatrix(matrix_t *matrix);
+int matrix_output(matrix_t matrix);
 
-int matrixOutput(matrix_t matrix);
+int matrix_input(matrix_t *matrix);
 
-int matrixInput(matrix_t *matrix);
+int delete_column(matrix_t *matrix);
 
-int deleteColumn(matrix_t *matrix);
+int delete_string(matrix_t *matrix);
 
-int deleteString(matrix_t *matrix);
+int add_column(matrix_t *matrix);
 
-int addColumn(matrix_t *matrix);
+int add_string(matrix_t *matrix);
 
-int addString(matrix_t *matrix);
+#endif
 
-#endif // __MATRIX_ROUTINES_H__
