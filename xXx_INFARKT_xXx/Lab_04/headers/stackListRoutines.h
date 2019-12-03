@@ -1,6 +1,6 @@
 /*
 This header file was generated automaticaly!
-Generated at: 14 November 2019 (14.11.2019) At: 01:22:26
+Generated at: 03 December 2019 (03.12.2019) At: 14:51:28
 Amount of functions        : 6
 Amount of documentated     : 6
 All functions documentated : True

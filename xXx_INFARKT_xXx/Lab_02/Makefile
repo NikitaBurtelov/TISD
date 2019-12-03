@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -MD -pedantic -c
-OBJECTS = $(subst mazeMain.o,,$(patsubst %.c,%.o,$(wildcard *.c)))
+CFLAGS = -MMD -g3 -c
+OBJECTS = $(patsubst %.c,%.o,$(wildcard *.c))
 
 .PHONY: clean all
 

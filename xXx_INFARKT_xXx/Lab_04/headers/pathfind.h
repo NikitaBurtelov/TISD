@@ -1,6 +1,6 @@
 /*
 This header file was generated automaticaly!
-Generated at: 14 November 2019 (14.11.2019) At: 01:22:26
+Generated at: 03 December 2019 (03.12.2019) At: 14:51:28
 Amount of functions        : 3
 Amount of documentated     : 0
 All functions documentated : False
@@ -20,6 +20,8 @@ Function's names:
 #include "stackArrRoutines.h"
 #include "mazeGen.h"
 #include "data_t.h"
+
+
 
 cellString getPathNeighbours(maze maze, cell c);
 

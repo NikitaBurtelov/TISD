@@ -1,14 +1,20 @@
 CC = gcc
-CFLAGS = -std=c99 -Wall -Werror -MD -g3 -pedantic -c
+CFLAGS = -std=c99 -Wall -Werror -MMD -g3 -pedantic -c
 TEST_OBJECTS = $(subst main.o,,$(patsubst %.c,%.o,$(wildcard *.c)))
 MAIN_OBJECTS = $(subst test.o,,$(patsubst %.c,%.o,$(wildcard *.c)))
 
-.PHONY: clean all
+.PHONY: clean all headgen
 
-all: main.exe test.exe
+all: app.exe test.exe
 
-main.exe: $(MAIN_OBJECTS)
-	$(CC) -o main.exe $(MAIN_OBJECTS)
+headgen: 
+	python3 -m headgen.headgen
+	rm -r main.h
+	rm -r test.h
+	mv *.h headers/
+
+app.exe: $(MAIN_OBJECTS)
+	$(CC) -o app.exe $(MAIN_OBJECTS)
 
 test.exe: $(TEST_OBJECTS)
 	$(CC) -o test.exe $(MAIN_OBJECTS)
