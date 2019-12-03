@@ -17,7 +17,7 @@ app.exe: $(MAIN_OBJECTS)
 	$(CC) -o app.exe $(MAIN_OBJECTS)
 
 test.exe: $(TEST_OBJECTS)
-	$(CC) -o test.exe $(MAIN_OBJECTS)
+	$(CC) -o test.exe $(TEST_OBJECTS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $<
