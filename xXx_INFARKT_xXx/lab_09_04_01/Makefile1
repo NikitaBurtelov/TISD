@@ -1,0 +1,23 @@
+CC = gcc
+CFLAGS = -std=c99 -Wall -Werror -g3 -pedantic -c
+
+app.exe: main.o math.o matrix_routines.o
+	$(CC) -o app.exe main.o math.o matrix_routines.o
+
+test.exe: test.o math.o matrix_routines.o
+	$(CC) -o test.exe test.o math.o matrix_routines.o
+
+main.o: main.c
+	$(CC) $(CFLAGS) $<
+
+test.o: test.c
+	$(CC) $(CFLAGS) $<
+
+math.o: math.c
+	$(CC) $(CFLAGS) $<
+
+matrix_routines.o: matrix_routines.c
+	$(CC) $(CFLAGS) $<
+
+clean:
+	rm -r *.o *.exe
