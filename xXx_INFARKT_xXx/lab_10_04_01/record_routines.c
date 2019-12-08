@@ -1,4 +1,4 @@
-#include "headers/record_routines.h"
+﻿#include "headers/record_routines.h"
 
 /* >includes
 "includes.h"
@@ -8,16 +8,12 @@
 int input_rec(record_t *rec) // >signature
 {
     char buf[BUF_LEN];
-    char strings[2][15];
-    strcpy(strings[0], "group");
-    strcpy(strings[1], "surname");
 
     char **pointers[2] = { &rec->group, &rec->surname };
 
     // Ввод группы и фамилии
     for(int i = 0; i < 2; i++)
     {
-        printf("Input %s: ", strings[i]);
         fgets(buf, BUF_LEN, stdin);
         buf[strlen(buf) - 1] = 0;
 
@@ -30,7 +26,7 @@ int input_rec(record_t *rec) // >signature
                 return END_OF_INPUT;
         }
 
-        if(!strlen(buf))
+        if(!strlen(buf)) // проверка на пустоту фамилии и группы
         {
             if(i)
                 free(*pointers[0]);
@@ -38,7 +34,7 @@ int input_rec(record_t *rec) // >signature
         }
 
         char *pt = malloc(sizeof (char) * (strlen(buf) + 1));
-        if(!pt)
+        if(!pt) // проверка на выделении памяти под динамические строки
         {
             if(i)
                 free(*pointers[0]);
@@ -52,7 +48,7 @@ int input_rec(record_t *rec) // >signature
     }
 
     // Проверка фамилии
-    for(int i = 0; rec->surname[i]; i++)
+    for(int i = 0; rec->surname[i]; i++) // проверка строка на валидность (символы [A-Za-z])
         if(!('a' <= rec->surname[i] && rec->surname[i] <= 'z') && !('A' <= rec->surname[i] && rec->surname[i] <= 'Z'))
         {
             free(*pointers[0]);
@@ -62,20 +58,55 @@ int input_rec(record_t *rec) // >signature
 
     // Ввод даты рождения
     int months[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+    char dates_str[3][256];
 
-    printf("Input date(YYYY.MM.DD): ");
-    if(scanf("%d.%d.%d", &rec->date[0], &rec->date[1], &rec->date[2]) != 3 ||
-            rec->date[0] < 1 || rec->date[1] > 12 || rec->date[1] < 1 || rec->date[2] < 1)
+    fgets(buf, BUF_LEN, stdin);
+    buf[strlen(buf) - 1] = 0;
+    if(strlen(buf) != 10) // проверка на длину
+    {
+       free(*pointers[0]);
+       free(*pointers[1]);
+       return EXIT_FAILURE;
+    }
+    else
+        for(int i = 0; i < 10; i++) // проверка на валидность символов
+            if((i == 4 || i == 7) && buf[i] != '.')
+            {
+               free(*pointers[0]);
+               free(*pointers[1]);
+               return EXIT_FAILURE;
+            }
+            else if ((buf[i] < '0' || buf[i] > '9') && (i != 4 && i != 7))
+            {
+               free(*pointers[0]);
+               free(*pointers[1]);
+               return EXIT_FAILURE;
+            }
+
+    if(sscanf(buf ,"%[0-9].%[0-9].%[0-9]", dates_str[0], dates_str[1], dates_str[2]) != 3 || // проверка на валидность строки на тип YYYY.MM.DD
+            strlen(dates_str[0]) != 4 || strlen(dates_str[1]) != 2 || strlen(dates_str[2]) != 2)
     {
         free(*pointers[0]);
         free(*pointers[1]);
         return EXIT_FAILURE;
     }
+    else
+    {
+        int rc = 0;
+        for(int i = 0; i < 3; i++) // считывание значений дат
+            rc += sscanf(dates_str[i], "%d", &rec->date[i]);
+        if (rc != 3 || rec->date[0] < 1 || rec->date[1] > 12 || rec->date[1] < 1 || rec->date[2] < 1 || rec->date[0] > 9999) // проверка на валидность значений дат
+         {
+            free(*pointers[0]);
+            free(*pointers[1]);
+            return EXIT_FAILURE;
+        }
+    }
 
-    if(!(rec->date[0] % 4))
+    if(!(rec->date[0] % 4)) // учет високосного года
         months[1]++;
 
-    if(months[rec->date[1] - 1] < rec->date[2])
+    if(months[rec->date[1] - 1] < rec->date[2]) // проверка на валидность значения DD
     {
         free(*pointers[0]);
         free(*pointers[1]);
@@ -84,16 +115,15 @@ int input_rec(record_t *rec) // >signature
 
 
     // Ввод количества оценок
-    printf("Input amount of marks: ");
-    if(scanf("%d", &rec->marks_num) != 1 || rec->marks_num < 1)
+    if(scanf("%d", &rec->marks_num) != 1 || rec->marks_num < 1) // проверка валидности значения длины массива
     {
         free(*pointers[0]);
         free(*pointers[1]);
         return EXIT_FAILURE;
     }
 
-    rec->marks = malloc(sizeof (double) * rec->marks_num);
-    if(!rec->marks)
+    rec->marks = malloc(sizeof (double) * (unsigned)rec->marks_num);
+    if(!rec->marks) // проверка на выделение памяти
     {
         free(*pointers[0]);
         free(*pointers[1]);
@@ -101,9 +131,8 @@ int input_rec(record_t *rec) // >signature
     }
 
     // Ввод значений оценок
-    printf("Input array of marks: ");
     for(int i = 0; i < rec->marks_num; i++)
-        if(scanf("%lf", &rec->marks[i]) != 1 || rec->marks[i] < 0)
+        if(scanf("%lf", &rec->marks[i]) != 1 || rec->marks[i] < 0) // проверка валидности значения длины массива
         {
             free(*pointers[0]);
             free(*pointers[1]);

@@ -1,7 +1,7 @@
 /*
 This header file was generated automaticaly!
-Generated at: 03 December 2019 (03.12.2019) At: 19:29:11
-Amount of functions        : 13
+Generated at: 09 December 2019 (09.12.2019) At: 00:05:23
+Amount of functions        : 11
 Amount of documentated     : 0
 All functions documentated : False
 Amount of structures       : 0
@@ -18,8 +18,6 @@ Function's names:
    9 > input_arr
   10 > older_then_17
   11 > output_arr
-  12 > sort_arr
-  13 > swap_rec
 
 */
 
@@ -41,10 +39,6 @@ int add_rec(record_arr_t *arr, record_t rec);
 int del_rec(record_arr_t *arr, int index);
 
 int input_arr(record_arr_t *arr);
-
-int swap_rec(record_arr_t *arr, int i, int j);
-
-int sort_arr(record_arr_t *arr);
 
 int older_then_17(int date[3]);
 

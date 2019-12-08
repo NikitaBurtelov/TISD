@@ -2,13 +2,13 @@
 #include "headers/types.h"
 #include "headers/rec_arr_routines.h"
 #include "headers/record_routines.h"
+#include "headers/sort.h"
 
 int main()
 {
     record_arr_t arr;
     init_arr(&arr);
 
-    printf("Input 'none', to stop input\n");
     if(input_arr(&arr) != EXIT_SUCCESS)
     {
         dest_arr(&arr);
@@ -28,6 +28,9 @@ int main()
     }
 
     sort_arr(&arr);
+
+    printf("\n");
+    output_arr(&arr);
 
     if(arr_to_file(&arr) != EXIT_SUCCESS)
     {
