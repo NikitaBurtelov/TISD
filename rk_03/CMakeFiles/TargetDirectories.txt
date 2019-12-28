@@ -1,0 +1,3 @@
+/home/v_getm/Documents/rk_03/CMakeFiles/rebuild_cache.dir
+/home/v_getm/Documents/rk_03/CMakeFiles/rk_03.dir
+/home/v_getm/Documents/rk_03/CMakeFiles/edit_cache.dir

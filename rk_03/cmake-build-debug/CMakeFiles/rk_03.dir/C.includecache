@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/user/CLionProjects/C_Folder/rk_03/functins.h
+string.h
+-
+stdio.h
+-
+stdlib.h
+-
+stdbool.h
+-
+
+C:/Users/user/CLionProjects/C_Folder/rk_03/main.c
+functins.h
+C:/Users/user/CLionProjects/C_Folder/rk_03/functins.h
+

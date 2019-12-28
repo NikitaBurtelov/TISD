@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/v_getm/Documents/rk_03/functins.h
+string.h
+-
+stdio.h
+-
+stdlib.h
+-
+stdbool.h
+-
+
+/home/v_getm/Documents/rk_03/functions.c
+functins.h
+/home/v_getm/Documents/rk_03/functins.h
+
+/home/v_getm/Documents/rk_03/main.c
+functins.h
+/home/v_getm/Documents/rk_03/functins.h
+

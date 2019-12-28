@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/rk_03.dir/functions.c.o CMakeFiles/rk_03.dir/main.c.o  -o rk_03 
