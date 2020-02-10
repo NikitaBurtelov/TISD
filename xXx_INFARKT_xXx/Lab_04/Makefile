@@ -1,27 +1,52 @@
-CC = gcc
-CFLAGS = -MMD -g3 -c
-MAZE_MAIN_OBJECTS = $(subst main.o,,$(patsubst %.c,%.o,$(wildcard *.c)))
-MAIN_OBJECTS = $(subst mazeMain.o,,$(patsubst %.c,%.o,$(wildcard *.c)))
+CAT1 = Debug/
+CAT3 = headers/
+EXECUTE = app.exe 
+OBJECTS = main.o mazeGen.o stackArrRoutines.o stackListRoutines.o
+TEST_OBJ = mazeGen.o stackArrRoutines.o stackListRoutines.o mazeMain.o pathfind.o
+SOURSES = *.c
+HEADERS = $(CAT3)mazeGen.h $(CAT3)stackArrRoutines.h $(CAT3)stackListRoutines.h
+DEBUG_KEYS = -g3
+DEBUG_COMP_KEYS = -g3 -lm 
+RELEASE_COMP_KEYS = -O3 -lm 
 
-.PHONY: clean all headgen
+finvers: $(TEST_OBJ) $(OBJECTS) $(HEADERS)
+	make -f Makefile app.exe
+	make -f Makefile mazeMain.exe
 
-all: main.exe mazeMain.exe
+app.exe: $(OBJECTS) $(HEADERS)
+	gcc $(DEBUG_COMP_KEYS) $(OBJECTS) -o app.exe
+	mv -f $(OBJECTS) $(CAT1)
+	mv -f app.exe $(CAT1)
 
-main.exe: $(MAIN_OBJECTS)
-	$(CC) -o main.exe $(MAIN_OBJECTS)
+mazeMain.exe: $(TEST_OBJ) $(HEADERS)
+	gcc $(DEBUG_COMP_KEYS) $(TEST_OBJ) -o mazeMain.exe
+	mv -f $(TEST_OBJ) $(CAT1)
+	mv -f mazeMain.exe $(CAT1)
 
-mazeMain.exe: $(MAZE_MAIN_OBJECTS)
-	$(CC) -o mazeMain.exe $(MAZE_MAIN_OBJECTS)
+main.o: main.c $(HEADERS)
+	mkdir -p $(CAT1)
+	gcc $(DEBUG_KEYS) -c $<
 
-%.o: %.c
-	$(CC) $(CFLAGS) $<
+mazeMain.o: mazeMain.c $(HEADERS)
+	mkdir -p $(CAT1)
+	gcc $(DEBUG_KEYS) -c $<
 
-headgen: 
-	python3 -m headgen.headgen
-	rm -r main.h mazeMain.h
-	mv *.h headers/
+stackArrRoutines.o: stackArrRoutines.c $(HEADERS)
+	mkdir -p $(CAT1)
+	gcc $(DEBUG_KEYS) -c $<
 
-clean: 
-	rm *.exe *.o *.d
-	
-include $(wildcard *.d) 
+stackListRoutines.o: stackListRoutines.c $(HEADERS)
+	mkdir -p $(CAT1)
+	gcc $(DEBUG_KEYS) -c $<
+
+mazeGen.o: mazeGen.c $(HEADERS)
+	mkdir -p $(CAT1)
+	gcc $(DEBUG_KEYS) -c $<
+
+pathfind.o: pathfind.c $(HEADERS)
+	mkdir -p $(CAT1)
+	gcc $(DEBUG_KEYS) -c $<
+
+clean:
+	rm -R $(CAT1)
+	mkdir -p $(CAT1)

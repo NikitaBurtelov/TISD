@@ -348,7 +348,7 @@ void fillMaze(maze *maze, int mode) //>signature
           unvisitedCells--;
           if(mode == 1)
           {
-              usleep(1e+6 * 0.015);
+              usleep(1e+6 * 0.01);
               system("clear");
               printf("\n");
               printMaze(*maze);
@@ -373,7 +373,10 @@ void fillMaze(maze *maze, int mode) //>signature
                 maze->map[i][j] = CELL;
 
     freeList(&cellsStack);
-
+	system("clear");
+	
+	system("clear");
+	printMaze(*maze);
 }
 
 // >documentation

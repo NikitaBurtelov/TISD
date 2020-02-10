@@ -1,4 +1,4 @@
-1)
-	make -f Makefile all
-2) 
-	./main.exe
+СНАЧАЛА запускаешь в консольке MSYSa из ЭТОЙ директории вот это вот
+		make -f Makefile finvers
+ЗАТЕМ для запуска программы набираешь
+		./Debug/app.exe

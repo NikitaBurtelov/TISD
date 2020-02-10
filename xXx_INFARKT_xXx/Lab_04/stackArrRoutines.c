@@ -8,7 +8,7 @@
 */
 
 /* >defines
-#define STACK_ARR_LEN 6
+#define STACK_ARR_LEN 100
 #define OUT_OF_MEMORY -100
 #define STACK_OVERFLOW -101
 #define STACK_UNDERFLOW -102

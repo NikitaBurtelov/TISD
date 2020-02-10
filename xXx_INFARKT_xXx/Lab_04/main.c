@@ -1,9 +1,189 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <unistd.h>
 #include "headers/mazeGen.h"
 #include "headers/stackArrRoutines.h"
 #include "headers/stackListRoutines.h"
+
+double arrCheck(char *expression, char *result)
+{
+    arrStack_t exp;
+    char tmp = 0, breakflag = 0;
+    initArr(&exp, sizeof (char));
+
+    clock_t start = clock();
+    for(unsigned i = 0; i < strlen(expression); i++)
+    {
+        if(expression[i] == '(' || expression[i] == '[' || expression[i] == '{')
+            arrPush(&exp, &expression[i]);
+        else if (expression[i] == ')')
+        {
+            if(arrPeek(&exp, &tmp) == EXIT_SUCCESS)
+            {
+                if(tmp == '(')
+                {
+                    arrPop(&exp, &tmp);
+                }
+                else
+                {
+                    sprintf(result, "Non valid expression!\n");
+                    breakflag++;
+                    break;
+                }
+            }
+            else
+            {
+                sprintf(result, "Non valid expression!\n");
+                breakflag++;
+                break;
+            }
+        }
+        else if (expression[i] == ']')
+        {
+            if(arrPeek(&exp, &tmp) == EXIT_SUCCESS)
+            {
+                if(tmp == '[')
+                {
+                    arrPop(&exp, &tmp);
+                }
+                else
+                {
+                    sprintf(result, "Non valid expression!\n");
+                    breakflag++;
+                    break;
+                }
+            }
+            else
+            {
+                sprintf(result, "Non valid expression!\n");
+                breakflag++;
+                break;
+            }
+        }
+        else if (expression[i] == '}')
+        {
+            if(arrPeek(&exp, &tmp) == EXIT_SUCCESS)
+            {
+                if(tmp == '{')
+                {
+                    arrPop(&exp, &tmp);
+                }
+                else
+                {
+                    sprintf(result, "Non valid expression!\n");
+                    breakflag++;
+                    break;
+                }
+            }
+            else
+            {
+                sprintf(result, "Non valid expression!\n");
+                breakflag++;
+                break;
+            }
+        }
+    }
+    if(!breakflag && exp.stackLen == 0)
+        sprintf(result, "Valid expression!\n");
+    else if (!breakflag)
+        sprintf(result, "Non valid expression!\n");
+    freeArr(&exp);
+
+    clock_t end = clock();
+
+    return (double)(end - start)/CLOCKS_PER_SEC;
+}
+
+double listCheck(char *expression, char *result)
+{
+    listStack_t exp;
+    char tmp = 0, breakflag = 0;
+    initList(&exp);
+
+    clock_t start = clock();
+    for(unsigned i = 0; i < strlen(expression); i++)
+    {
+        if(expression[i] == '(' || expression[i] == '[' || expression[i] == '{')
+            listPush(&exp, (data_t*)&expression[i]);
+        else if (expression[i] == ')')
+        {
+            if(listPeek(&exp, (data_t*)&tmp) == EXIT_SUCCESS)
+            {
+                if(tmp == '(')
+                {
+                    listPop(&exp, (data_t*)&tmp);
+                }
+                else
+                {
+                    sprintf(result, "Non valid expression!\n");
+                    breakflag++;
+                    break;
+                }
+            }
+            else
+            {
+                sprintf(result, "Non valid expression!\n");
+                breakflag++;
+                break;
+            }
+        }
+        else if (expression[i] == ']')
+        {
+            if(listPeek(&exp, (data_t*)&tmp) == EXIT_SUCCESS)
+            {
+                if(tmp == '[')
+                {
+                    listPop(&exp, (data_t*)&tmp);
+                }
+                else
+                {
+                    sprintf(result, "Non valid expression!\n");
+                    breakflag++;
+                    break;
+                }
+            }
+            else
+            {
+                sprintf(result, "Non valid expression!\n");
+                breakflag++;
+                break;
+            }
+        }
+        else if (expression[i] == '}')
+        {
+            if(listPeek(&exp, (data_t*)&tmp) == EXIT_SUCCESS)
+            {
+                if(tmp == '{')
+                {
+                    listPop(&exp, (data_t*)&tmp);
+                }
+                else
+                {
+                    sprintf(result, "Non valid expression!\n");
+                    breakflag++;
+                    break;
+                }
+            }
+            else
+            {
+                sprintf(result, "Non valid expression!\n");
+                breakflag++;
+                break;
+            }
+        }
+    }
+    if(!breakflag && exp.stackLen == 0)
+        sprintf(result, "Valid expression!\n");
+    else if (!breakflag)
+        sprintf(result, "Non valid expression!\n");
+    freeList(&exp);
+
+    clock_t end = clock();
+
+    return (double)(end - start)/CLOCKS_PER_SEC;
+}
 
 int main(void)
 {
@@ -69,99 +249,39 @@ int main(void)
             break;
         case 5:
         {
-            int strLen = 0;
-            printf("Input length of the string: ");
-            if(scanf("%d", &strLen) != 1)
-            {
-                clear();
-                printf("Wrong Input!\n");
-                break;
-            }
-            if(strLen <= 0)
+            char expression[512];
+                        
+            printf("Input string with brackets('()' or '[]' or '{}') and without spacebars:");
+            if(scanf("%511s", expression) != 1)
             {
                 printf("Wrong Input!\n");
                 break;
             }
 
-            char *expression = NULL;
-            char data;
-            expression = malloc(sizeof (char) * ((unsigned)strLen + 1));
-            strLen++;
-            if(!expression)
+            char result[50];
+
+            double arr1000 = 0, arr5000 = 0,  arr10000 = 0;
+            double list1000 = 0, list5000 = 0, list10000 = 0;
+
+            for(int i = 0; i < 1000; i++)
             {
-                printf("Memory allocation error!\n");
-                break;
+                arr1000 += arrCheck(expression, result);
+                list1000 += listCheck(expression, result);
+            }
+            for(int i = 0; i < 5000; i++)
+            {
+                arr5000 += arrCheck(expression, result);
+                list5000 += listCheck(expression, result);
+            }
+            for(int i = 0; i < 10000; i++)
+            {
+                arr10000 += arrCheck(expression, result);
+                list10000 += listCheck(expression, result);
             }
 
-            printf("Input string with brackets('()' or '[]' or '{}') and without spacebars; maximum length = %d: ", strLen - 1);
-            if(scanf("%s", expression) != 1)
-            {
-                printf("Wrong Input!\n");
-                break;
-            }
-            expression[strLen] = 0;
-
-            arrStack_t bracketsStack1; // для (
-            arrStack_t bracketsStack2; // для [
-            arrStack_t bracketsStack3; // для {
-            int sum1 = 0, sum2 = 0, sum3 = 0, flag = 0;
-            initArr(&bracketsStack1, sizeof (char) * (unsigned)strLen);
-            initArr(&bracketsStack2, sizeof (char) * (unsigned)strLen);
-            initArr(&bracketsStack3, sizeof (char) * (unsigned)strLen);
-
-            for(int i = 0; expression[i] && (i < strLen); i++)
-            {
-                if(expression[i] == '(')
-                {
-                    //arrPush(&bracketsStack1, &expression[i]);
-                    sum1++;
-                }
-                else if(expression[i] == '[')
-                {
-                    //arrPush(&bracketsStack2, &expression[i]);
-                    sum2++;
-                }
-                else if(expression[i] == '{')
-                {
-                    //arrPush(&bracketsStack3, &expression[i]);
-                    sum3++;
-                }
-
-                else if(expression[i] == ')')
-                {
-                    //arrPop(&bracketsStack1, &data);
-                    sum1--;
-                }
-                else if(expression[i] == ']')
-                {
-                    //arrPop(&bracketsStack2, &data);
-                    sum2--;
-                }
-                else if(expression[i] == '}')
-                {
-                    //arrPop(&bracketsStack3, &data);
-                    sum3--;
-                }
-
-                if(sum1 < 0 || sum2 < 0 || sum3 < 0)
-                {
-                    printf("Ne Verno!\n");
-                    flag++;
-                    break;
-                }
-            }
-            if(flag)
-                break;
-
-            if(sum1 == 0 && sum2 == 0 && sum3 == 0)
-                printf("Verno!\n");
-            else
-                printf("Ne Verno!\n");
-
-            freeArr(&bracketsStack1);
-            freeArr(&bracketsStack2);
-            freeArr(&bracketsStack3);
-
+            printf(" arr time : 1000 = %lf, 5000 = %lf, 10000 = %lf\n", arr1000, arr5000, arr10000);
+            printf(" list time : 1000 = %lf, 5000 = %lf, 10000 = %lf\n", list1000, list5000, list10000);
+            printf("%s", result);
             break;
         }
         case 6:
@@ -199,7 +319,8 @@ int main(void)
             break;
         case 10:
         {
-            system("konsole -e ./mazeMain.exe");
+            system("konsole -e ./Debug/mazeMain.exe");
+            system("clear");
             break;
         }
         default:

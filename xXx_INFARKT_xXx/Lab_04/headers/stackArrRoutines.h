@@ -1,6 +1,6 @@
 /*
 This header file was generated automaticaly!
-Generated at: 03 December 2019 (03.12.2019) At: 14:51:28
+Generated at: 14 November 2019 (14.11.2019) At: 01:22:26
 Amount of functions        : 6
 Amount of documentated     : 6
 All functions documentated : True
@@ -24,7 +24,7 @@ Function's names:
 #include <malloc.h>
 #include <stdio.h>
 
-#define STACK_ARR_LEN 6
+#define STACK_ARR_LEN 16
 #define OUT_OF_MEMORY -100
 #define STACK_OVERFLOW -101
 #define STACK_UNDERFLOW -102
